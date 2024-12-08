@@ -118,42 +118,58 @@ const HomePage: React.FC = () => {
                 name: 'প্রিমিয়াম বীজ',
                 category: 'বীজ',
                 price: '৳২,৪৯৯',
-                image: '🌾',
+                image: 'src/assets/rice-field.jpg',
               },
               {
-                name: 'জৈব সার',
-                category: 'সার',
+                name: 'গাছ পাকা টমেমো',
+                category: 'সবজি',
                 price: '৳৩,৪৯৯',
-                image: '🌿',
+                image: 'src/assets/vegetable-garden.jpg',
               },
               {
-                name: 'স্মা���্ট সেচ সিস্টেম',
+                name: 'স্মার্ট সেচ সিস্টেম',
                 category: 'প্রযুক্তি',
                 price: '৳২৯,৯৯৯',
-                image: '💧',
+                image: 'src/assets/rice-field.jpg',
               },
               {
                 name: 'হাতের যন্ত্রপাতি সেট',
                 category: 'যন্ত্রপাতি',
                 price: '৳৮,৯৯৯',
-                image: '🔨',
+                image: 'src/assets/smart-farming.jpg',
+                
               },
             ].map((item, index) => (
               <div
                 key={index}
                 className="bg-white p-3 rounded-lg shadow-sm hover:shadow-md transition-all"
               >
-                <div className="text-3xl mb-2 text-center bg-green-50 p-3 rounded-lg">
-                  {item.image}
+                <div className="h-20 mb-2 bg-green-50 rounded-lg overflow-hidden"> {/* reduced from h-24 to h-20 */}
+                  <img 
+                    src={item.image} 
+                    alt={item.name}
+                    className="w-full h-full object-cover"
+                  />
                 </div>
-                <h3 className="font-bold text-gray-800 text-sm leading-tight mb-1">
+                <h3 className="font-bold text-gray-800 text-xs leading-tight mb-1"> {/* decreased from text-sm */}
                   {item.name}
                 </h3>
-                <p className="text-xs text-gray-600 mb-1">{item.category}</p>
-                <p className="text-green-700 font-bold text-sm mb-2">{item.price}</p>
-                <button className="w-full bg-green-600 text-white py-1.5 rounded text-sm hover:bg-green-700 transition-all">
-                  কার্টে যোগ করুন
-                </button>
+                <div className="flex justify-between items-center mb-2">
+                  <p className="text-[10px] text-gray-600">
+                    {item.category}
+                  </p>
+                  <p className="text-green-700 font-bold text-xs">
+                    {item.price}
+                  </p>
+                </div>
+                <div className="grid grid-cols-2 gap-2">
+                  <button className="w-full bg-gray-600 text-white py-1.5 rounded text-[10px] sm:text-xs hover:bg-blue-700 transition-all">
+                    কিনুন
+                  </button>
+                  <button className="w-full bg-green-600 text-white py-1.5 rounded text-[10px] sm:text-xs hover:bg-green-700 transition-all">
+                    যোগ করুন
+                  </button>
+                </div>
               </div>
             ))}
           </div>
@@ -167,7 +183,7 @@ const HomePage: React.FC = () => {
           <span className="text-[10px] mt-0.5">হোম</span>
         </button>
         <button onClick={() => handleNavigation('/browse')} className="text-gray-600 flex flex-col items-center">
-          <span className="text-2xl">🔍</span>
+          <span className="text-2xl">✨</span>
           <span className="text-[10px] mt-0.5">অনুসন্ধান</span>
         </button>
         <button onClick={() => handleNavigation('/cart')} className="text-gray-600 flex flex-col items-center">

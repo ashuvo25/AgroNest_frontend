@@ -163,7 +163,7 @@ const AgricultureApp: React.FC = () => {
         <nav className="container mx-auto flex justify-around py-2 max-w-6xl">
           {[
             { icon: '🏠', label: 'হোম', active: true },
-            { icon: '🌾', label: 'অনুসন্ধান' },
+            { icon: '✨', label: 'অনুসন্ধান' },
             { icon: '🌿', label: 'গ্যালারি' },
             { icon: '⚙️', label: 'সেটিংস' },
           ].map((item, index) => (
