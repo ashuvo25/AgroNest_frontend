@@ -26,20 +26,20 @@ const HomePage: React.FC = () => {
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-8">
             <button onClick={() => handleNavigation('/home_page')} className="text-green-700 font-medium hover:text-green-800 flex items-center gap-2">
-              <FiHome className="h-5 w-5" />
-              হোম
+              {/* <FiHome className="h-5 w-5" /> */}
+              🏠হোম
             </button>
             <button onClick={() => handleNavigation('/browse')} className="text-gray-600 font-medium hover:text-green-700 flex items-center gap-2">
-              <FiSearch className="h-5 w-5" />
-              ব্রাউজ
+              {/* <FiSearch className="h-5 w-5" /> */}
+              ✨ব্রাউজ
             </button>
             <button onClick={() => handleNavigation('/cart')} className="text-gray-600 font-medium hover:text-green-700 flex items-center gap-2">
-              <FiShoppingCart className="h-5 w-5" />
-              কার্ট
+              {/* <FiShoppingCart className="h-5 w-5" /> */}
+              🛒কার্ট
             </button>
             <button onClick={() => handleNavigation('/agriculture')} className="text-gray-600 font-medium hover:text-green-700 flex items-center gap-2">
-              <FiUser className="h-5 w-5" />
-              প্রোফাইল
+              {/* <FiUser className="h-5 w-5" /> */}
+              👤প্রোফাইল
             </button>
           </div>
 

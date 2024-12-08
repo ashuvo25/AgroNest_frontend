@@ -6,6 +6,7 @@ const BlogApp: React.FC = () => {
       author: "ড. সারাহ জনসন",
       title: "টেকসই কৃষি পদ্ধতি: আধুনিক কৃষির গাইড",
       date: "২ আগস্ট ২০২৩",
+      // readTime: "১০ মিনি�� পড়া",
       category: "কৃষি",
       image: "src/assets/smart-farming.jpg"
     },
@@ -13,6 +14,7 @@ const BlogApp: React.FC = () => {
       author: "প্রফেসর মাইকেল চেন",
       title: "জৈব কীটনাশক পদ্ধতি: উন্নত ফসল উৎপাদনের জন্য",
       date: "২ আগস্ট ২০২৩",
+      // readTime: "৮ মিনিট পড়া",
       category: "ফসল সুরক্ষা",
       image: "src/assets/vegetable-garden.jpg"
     },
@@ -20,6 +22,7 @@ const BlogApp: React.FC = () => {
       author: "ড. মারিয়া গার্সিয়া",
       title: "কৃষি প্রযুক্তিতে উদ্ভাবন: ২০২৩ সালের ট্রেন্ড",
       date: "২ আগস্ট ২০২৩",
+      // readTime: "১২ মিনিট পড়া",
       category: "প্রযুক্তি",
       image: "src/assets/smart-farming.jpg"
     },
@@ -35,7 +38,30 @@ const BlogApp: React.FC = () => {
               <span className="text-xl">🌾</span>
               AgroNest ব্লগ
             </h1>
-            <div className="flex gap-4">
+
+            {/* Desktop Navigation - New */}
+            <nav className="hidden md:flex items-center gap-6">
+              {[
+                { icon: '🏠', label: 'হোম', active: true },
+                { icon: '📚', label: 'আমার ব্লগ' },
+                { icon: '✏️', label: 'লিখুন' },
+                { icon: '👤', label: 'প্রোফাইল' },
+              ].map((item, index) => (
+                <button 
+                  key={index} 
+                  className={`flex items-center gap-2 px-3 py-1.5 rounded-lg text-sm
+                           ${item.active 
+                             ? 'bg-[#E8F3E8] text-[#2C5F2D]' 
+                             : 'hover:bg-[#E8F3E8]/50 text-gray-600'}`}
+                >
+                  <span className="text-base">{item.icon}</span>
+                  <span className="font-medium">{item.label}</span>
+                </button>
+              ))}
+            </nav>
+
+            {/* Mobile Action Buttons */}
+            <div className="flex gap-4 md:hidden">
               <button className="p-2 hover:bg-green-50 rounded-full">✏️</button>
               <button className="p-2 hover:bg-green-50 rounded-full">🔔</button>
               <button className="p-2 hover:bg-green-50 rounded-full">👤</button>
@@ -89,7 +115,7 @@ const BlogApp: React.FC = () => {
                   <span className="text-xs text-green-600 font-medium">{article.category}</span>
                   <h2 className="text-sm sm:text-base font-bold mt-1 text-gray-800 line-clamp-2">{article.title}</h2>
                   <p className="text-xs text-gray-600 mt-1">
-                    লেখক {article.author} • {article.date} • {article.readTime}
+                    লেখক {article.author} • {article.date}
                   </p>
                 </div>
                 <div className="flex items-center gap-3 mt-2">
@@ -105,8 +131,8 @@ const BlogApp: React.FC = () => {
         </div>
       </main>
 
-      {/* Footer Navigation */}
-      <footer className="sticky bottom-0 left-0 right-0 bg-white border-t border-[#E8F3E8] shadow-lg z-50">
+      {/* Footer Navigation - Modified for mobile only */}
+      <footer className="sticky bottom-0 left-0 right-0 bg-white border-t border-[#E8F3E8] shadow-lg z-50 md:hidden">
         <nav className="container mx-auto flex justify-around py-1.5 max-w-6xl">
           {[
             { icon: '🏠', label: 'হোম', active: true },
