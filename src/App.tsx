@@ -5,12 +5,13 @@ import SignUp from './components/SignUp'
 import AgricultureApp from './components/AgricultureApp'
 import HomePage from './components/HomePage'  
 import BlogApp from './components/BlogApp'
+import LearningPage from './components/LearningPage'
 
 const App = () => {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<SignIn />} />
+        <Route path="/" element={<LearningPage />} />
         <Route path="/blog" element={<BlogApp />} />
         <Route path="/signin" element={<SignIn />} />
         <Route path="/signup" element={<SignUp />} />
