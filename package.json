@@ -11,7 +11,10 @@
   },
   "dependencies": {
     "@hookform/resolvers": "^3.9.1",
+    "@types/chart.js": "^2.9.41",
+    "chart.js": "^4.4.7",
     "react": "^18.2.0",
+    "react-chartjs-2": "^5.2.0",
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.54.0",
     "react-icons": "^5.4.0",
@@ -21,6 +24,7 @@
   },
   "devDependencies": {
     "@types/react": "^18.2.43",
+    "@types/react-chartjs-2": "^2.5.7",
     "@types/react-dom": "^18.2.17",
     "@types/styled-components": "^5.1.34",
     "@typescript-eslint/eslint-plugin": "^6.14.0",

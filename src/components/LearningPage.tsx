@@ -202,99 +202,146 @@ const LearningPage: React.FC = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-[#E8F3E8]"> {/* Light blue background */}
-      {/* Desktop Sidebar */}
-      <aside className="hidden lg:flex fixed left-0 top-0 h-screen w-64 bg-white border-r border-[#D1E7D1]">
-        <div className="p-4 border-b border-[#D1E7D1]">
-          <h1 className="text-xl font-bold text-[#2C5F2D] flex items-center gap-2">
-            <span className="text-2xl">🌾</span>
-            এগ্রোনেস্ট
-          </h1>
-        </div>
-        <nav className="p-4 flex flex-col gap-2">
-          {[
-            { icon: '🏠', label: 'হোম', active: true },
-            { icon: '✨', label: 'কোর্স' },
-            { icon: '🌿', label: 'লাইব্রেরি' },
-            { icon: '👤', label: 'প্রোফাইল' },
-            { icon: '⚙️', label: 'সেটিংস' },
-          ].map((item, index) => (
-            <button
-              key={index}
-              className={`flex items-center gap-3 p-3 rounded-lg ${
-                item.active 
-                  ? 'bg-[#e8f3e800] text-[#2C5F2D]' 
-                  : 'text-gray-600 hover:bg-[#E8F3E8] hover:text-[#2C5F2D]'
-              }`}
-            >
-              <span>{item.icon}</span>
-              <span>{item.label}</span>
-            </button>
-          ))}
-        </nav>
-      </aside>
-
-      {/* Main Content */}
-      <div className="lg:pl-64">
-        {/* Header */}
-        <header className="fixed top-0 right-0 left-0 lg:left-64 bg-gradient-to-r from-green-800 via-green-700 to-green-600 border-b border-green-900/10 z-40">
+    <div className="min-h-screen bg-[#E8F3E8]">
+      {/* Header with Navigation - Hidden on mobile */}
+      <header className="fixed top-0 right-0 left-0 bg-gradient-to-r from-green-800 via-green-700 to-green-600 border-b border-green-900/10 z-40 hidden md:block">
+        <div className="flex flex-col w-full">
+          {/* Top bar with logo and user info */}
           <div className="flex justify-between items-center p-4">
-            <div className="flex items-center gap-4">
-              <img
-                src="https://source.unsplash.com/featured/?farmer"
-                alt="প্রোফাইল"
-                className="w-10 h-10 rounded-full object-cover border-2 border-white/20"
-              />
-              <div>
-                <h2 className="font-semibold text-white">স্বাগতম, কৃষক আহমেদ</h2>
-                <p className="text-sm text-green-100/80">শিখতে প্রস্তুত?</p>
-              </div>
+            {/* Logo - show on all screens */}
+            <div className="flex items-center gap-2">
+              <span className="text-2xl">🌾</span>
+              <h1 className="text-xl font-bold text-white">এগ্রোনেস্ট</h1>
             </div>
-            <div className="flex items-center gap-4">
-              <button className="p-2 hover:bg-white/10 rounded-full text-white">
-                <span className="text-xl">🔔</span>
-              </button>
-            </div>
-            <HeaderProgressSection />
-          </div>
-        </header>
 
-        {/* Main Content */}
-        <main className="pt-20 px-4 md:px-6 lg:px-8 pb-20 lg:pb-8">
-          {/* Search and Categories */}
-          <div className="max-w-screen-2xl mx-auto grid lg:grid-cols-[2fr,1fr] gap-6 mb-8">
-            <div className="space-y-6">
+            {/* Search Bar - Desktop only */}
+            <div className="hidden lg:block flex-1 max-w-xl mx-8">
               <div className="relative">
                 <input
                   type="text"
                   placeholder="কৃষি কোর্স খুঁজুন..."
-                  className="w-full p-4 pr-12 text-sm md:text-base rounded-xl border border-[#D1E7D1] focus:border-[#2C5F2D] focus:ring-1 focus:ring-[#2C5F2D]/20"
+                  className="w-full p-2 pr-10 text-sm rounded-lg border border-white/20 bg-white/10 text-white placeholder-white/70 focus:outline-none focus:border-white/40"
                 />
-                <button className="absolute right-4 top-1/2 -translate-y-1/2">
+                <button className="absolute right-3 top-1/2 -translate-y-1/2 text-white/70">
                   🔍
                 </button>
               </div>
+            </div>
 
-              <div className="flex flex-wrap gap-2 overflow-x-auto">
+            {/* User Profile and Notifications - Different layouts for mobile/desktop */}
+            <div className="flex items-center gap-4">
+              <button className="p-2 hover:bg-white/10 rounded-full text-white">
+                <span className="text-xl">🔔</span>
+              </button>
+              <div className="h-6 w-px bg-white/20 hidden md:block"></div>
+              <div className="flex items-center gap-3">
+                <img
+                  src="https://source.unsplash.com/featured/?farmer"
+                  alt="প্রোফাইল"
+                  className="w-8 h-8 rounded-full object-cover border border-white/20"
+                />
+                <div className="hidden md:block">
+                  <h2 className="font-semibold text-white text-sm">কৃষক আহমেদ</h2>
+                  <p className="text-xs text-white/70">শিখতে প্রস্তুত?</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Desktop Navigation Bar */}
+          <nav className="hidden lg:flex justify-center items-center bg-white/10 py-2">
+            <div className="flex gap-8">
+              {[
+                { icon: '🏠', label: 'হোম', active: true },
+                { icon: '✨', label: 'কোর্স' },
+                { icon: '🌿', label: 'লাইব্রেরি' },
+                { icon: '📊', label: 'ড্যাশবোর্ড' },
+                { icon: '⚙️', label: 'সেটিংস' },
+              ].map((item, index) => (
+                <button
+                  key={index}
+                  className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-colors
+                    ${item.active 
+                      ? 'bg-white/20 text-white' 
+                      : 'text-white/80 hover:bg-white/10'
+                    }`}
+                >
+                  <span>{item.icon}</span>
+                  <span className="font-medium">{item.label}</span>
+                </button>
+              ))}
+            </div>
+          </nav>
+
+          {/* Mobile Navigation Bar - Only visible on medium screens */}
+          <nav className="lg:hidden md:flex justify-center items-center bg-white/10 py-2">
+            <div className="flex gap-4">
+              {[
+                { icon: '🏠', label: 'হোম', active: true },
+                { icon: '✨', label: 'কোর্স' },
+                { icon: '🌿', label: 'লাইব্রেরি' },
+                { icon: '⚙️', label: 'সেটিংস' },
+              ].map((item, index) => (
+                <button
+                  key={index}
+                  className={`flex items-center gap-1 px-3 py-1 rounded-lg transition-colors
+                    ${item.active 
+                      ? 'bg-white/20 text-white' 
+                      : 'text-white/80 hover:bg-white/10'
+                    }`}
+                >
+                  <span>{item.icon}</span>
+                  <span className="font-medium text-sm">{item.label}</span>
+                </button>
+              ))}
+            </div>
+          </nav>
+        </div>
+      </header>
+
+      {/* Main Content Area - Adjust padding for mobile */}
+      <main className="px-4 md:px-6 lg:px-8 pb-20 lg:pb-8 pt-4 md:pt-28 lg:pt-36">
+        {/* Show mobile top bar on small screens */}
+        <div className="md:hidden flex items-center justify-between mb-4">
+          <div className="flex items-center gap-2">
+            <span className="text-2xl">🌾</span>
+            <h1 className="text-xl font-bold text-[#2C5F2D]">এগ্রোনেস্ট</h1>
+          </div>
+          <button className="p-2 hover:bg-white/10 rounded-full text-[#2C5F2D]">
+            <span className="text-xl">🔔</span>
+          </button>
+        </div>
+        {/* Remove the search bar from here for desktop */}
+        <div className="max-w-screen-2xl mx-auto grid lg:grid-cols-[2fr,1fr] gap-6 mb-8">
+          <div className="space-y-6">
+            {/* Show search bar only on mobile */}
+            <div className="relative lg:hidden">
+              <input
+                type="text"
+                placeholder="কৃষি কোর্স খুঁজুন..."
+                className="w-full p-4 pr-12 text-sm md:text-base rounded-xl border border-[#D1E7D1] focus:border-[#2C5F2D] focus:ring-1 focus:ring-[#2C5F2D]/20"
+              />
+              <button className="absolute right-4 top-1/2 -translate-y-1/2">
+                🔍
+              </button>
+            </div>
+            <div className="flex flex-wrap gap-2 overflow-x-auto">
                 {categories.map((category, index) => (
                   <button
                     key={index}
-                    className="px-4 py-2 rounded-full bg-white border border-[#D1E7D1] text-sm hover:bg-[#E8F3E8] hover:border-[#2C5F2D] transition-colors"
+                    className="px-3 py-1.5 rounded-full bg-white border border-[#D1E7D1] text-xs hover:bg-[#E8F3E8] hover:border-[#2C5F2D] transition-colors"
                   >
                     {category}
                   </button>
                 ))}
               </div>
-            </div>
-
-            <div className="bg-gradient-to-br from-[#2C5F2D]/10 to-[#2C5F2D]/5 rounded-xl p-6 hidden lg:block">
+          </div>
+          <div className="bg-gradient-to-br from-[#2C5F2D]/10 to-[#2C5F2D]/5 rounded-xl p-6 hidden lg:block">
               <h3 className="font-semibold mb-2 text-[#2C5F2D]">শিক্ষার অগ্রগতি</h3>
               <p className="text-sm text-gray-600">আপনার শেষ অবস্থান ��েকে শুরু করুন...</p>
             </div>
-          </div>
-
-          {/* Course Grid */}
-          <div className="max-w-screen-2xl mx-auto space-y-8">
+        </div>
+        <div className="max-w-screen-2xl mx-auto space-y-8">
             {/* Featured Courses */}
             <section>
               <h2 className="text-xl font-bold mb-4">বৈশিষ্ট্যযুক্ত কোর্সসমূহ</h2>
@@ -316,32 +363,7 @@ const LearningPage: React.FC = () => {
                   <CourseCard key={`rec-${index}`} {...course} />
                 ))}
               </div>
-            </section>
-          </div>
-        </main>
-      </div>
-
-      {/* Mobile Navigation */}
-      <footer className="sticky bottom-0 left-0 right-0 bg-white border-t border-[#D1E7D1] shadow-lg z-50 md:hidden">
-        <nav className="container mx-auto flex justify-around py-2 max-w-6xl">
-          {[
-            { icon: '🏠', label: 'হোম', active: true },
-            { icon: '✨', label: 'অনুসন্ধান' },
-            { icon: '🌿', label: 'গ্যালারি' },
-            { icon: '⚙️', label: 'সেটিংস' },
-          ].map((item, index) => (
-            <button 
-              key={index} 
-              className={`flex flex-col items-center group px-3 py-1 rounded-lg
-                       ${item.active ? 'bg-[#E8F3E8]' : 'hover:bg-[#E8F3E8]/50'}`}
-            >
-              <div className="text-base group-hover:scale-110 transition-transform">
-                {item.icon}
-              </div>
-              <span className={`text-[10px] mt-0.5 font-medium ${
-                item.active ? 'text-[#2C5F2D]' : 'text-gray-600'
-              }`}>
-                {item.label}
+            </section>          </div>      </main>      {/* Mobile Navigation - Only visible on smallest screens */}      <footer className="sticky bottom-0 left-0 right-0 bg-white border-t border-[#D1E7D1] shadow-lg z-50 md:hidden">        <nav className="container mx-auto flex justify-around py-2 max-w-6xl">          {[            { icon: '🏠', label: 'হোম', active: true },            { icon: '✨', label: 'অনুসন্ধান' },            { icon: '🌿', label: 'গ্যালারি' },            { icon: '⚙️', label: 'সেটিংস' },          ].map((item, index) => (            <button               key={index}               className={`flex flex-col items-center group px-3 py-1 rounded-lg                       ${item.active ? 'bg-[#E8F3E8]' : 'hover:bg-[#E8F3E8]/50'}`}            >              <div className="text-base group-hover:scale-110 transition-transform">                {item.icon}              </div>              <span className={`text-[10px] mt-0.5 font-medium ${                item.active ? 'text-[#2C5F2D]' : 'text-gray-600'              }`}>                {item.label}
               </span>
             </button>
           ))}
