@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { termsAndConditions, privacyPolicy, faq, logoutConfirmation } from './Terms';
+import { ContentModal, ConfirmationModal } from './Modals';
 
 interface UserStats {
   coursesCompleted: number;
@@ -100,119 +102,143 @@ const AchievementCard: React.FC<Achievement> = ({ icon, title, description, date
   </div>
 );
 
-const MenuSection: React.FC<{ onSettingsClick: () => void }> = ({ onSettingsClick }) => (
-  <div className="space-y-6">
-    {/* Main Features */}
-    <div className="space-y-3">
-      <h2 className="text-sm font-semibold text-gray-900 px-1">মূল ফিচারসমূহ</h2>
-      <div className="bg-gradient-to-br from-white to-gray-50/95 backdrop-blur-sm rounded-xl overflow-hidden shadow-md border border-gray-200">
-        {[
-          { icon: '📚', label: 'বর্তমান কোর্সসমূহ', badge: '3', color: 'bg-blue-100 text-blue-700' },
-          { icon: '🎓', label: 'শিক্ষা', badge: '12', color: 'bg-purple-100 text-purple-700' },
-          { icon: '✍️', label: 'ব্লগসমূহ', badge: '5', color: 'bg-green-100 text-green-700' },
-          { icon: '🔬', label: 'রোগ নির্ণয়', badge: 'নতুন', color: 'bg-orange-100 text-orange-700' },
-          { icon: '🤖', label: 'মেশিন টিচার', badge: 'AI', color: 'bg-indigo-100 text-indigo-700' },
-        ].map((item, index) => (
-          <button
-            key={index}
-            className="w-full flex items-center justify-between p-3 hover:bg-gray-50/80 transition-colors border-b border-gray-100 last:border-b-0"
-          >
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-lg bg-gray-50 flex items-center justify-center">
-                <span className="text-xl">{item.icon}</span>
-              </div>
-              <span className="text-sm font-medium text-gray-700">{item.label}</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <span className={`text-xs font-medium px-2 py-0.5 rounded-full ${item.color}`}>
-                {item.badge}
-              </span>
-              <span className="text-gray-400">→</span>
-            </div>
-          </button>
-        ))}
-      </div>
-    </div>
+const MenuSection: React.FC<{ 
+  onSettingsClick: () => void,
+  onLogout: () => void
+}> = ({ onSettingsClick, onLogout }) => {
+  const navigate = useNavigate();
+  const [showModal, setShowModal] = useState<string | null>(null);
 
-    {/* Community */}
-    {/* <div className="space-y-3">
-      <h2 className="text-sm font-semibold text-gray-900 px-1">কমিউনিটি</h2>
-      <div className="bg-gradient-to-br from-white to-gray-50/95 backdrop-blur-sm rounded-xl overflow-hidden shadow-md border border-gray-200">
-        {[
-          { icon: '👥', label: 'কৃষক কমিউনিটি', badge: 'লাইভ', color: 'bg-green-100 text-green-700' },
-          { icon: '💬', label: 'আলোচনা ফোরাম', badge: '৩২', color: 'bg-blue-100 text-blue-700' },
-          { icon: '🤝', label: 'সহযোগিতা করুন', badge: '', color: '' },
-          { icon: '📢', label: 'ইভেন্টসমূহ', badge: 'নতুন', color: 'bg-purple-100 text-purple-700' },
-        ].map((item, index) => (
-          <button
-            key={index}
-            className="w-full flex items-center justify-between p-3 hover:bg-gray-50/80 transition-colors border-b border-gray-100 last:border-b-0"
-          >
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-lg bg-gray-50 flex items-center justify-center">
-                <span className="text-xl">{item.icon}</span>
+  const handleMenuClick = (type: string) => {
+    setShowModal(type);
+  };
+
+  const renderModal = () => {
+    switch(showModal) {
+      case 'terms':
+        return (
+          <ContentModal
+            title={termsAndConditions.title}
+            content={termsAndConditions}
+            onClose={() => setShowModal(null)}
+          />
+        );
+      case 'privacy':
+        return (
+          <ContentModal
+            title={privacyPolicy.title}
+            content={privacyPolicy}
+            onClose={() => setShowModal(null)}
+          />
+        );
+      case 'faq':
+        return (
+          <ContentModal
+            title={faq.title}
+            content={faq}
+            onClose={() => setShowModal(null)}
+          />
+        );
+      case 'logout':
+        return (
+          <ConfirmationModal
+            {...logoutConfirmation}
+            onConfirm={onLogout}
+            onCancel={() => setShowModal(null)}
+          />
+        );
+      default:
+        return null;
+    }
+  };
+
+  return (
+    <div className="space-y-6">
+      {/* Main Features */}
+      <div className="space-y-3">
+        <h2 className="text-sm font-semibold text-gray-900 px-1">মূল ফিচারসমূহ</h2>
+        <div className="bg-gradient-to-br from-white to-gray-50/95 backdrop-blur-sm rounded-xl overflow-hidden shadow-md border border-gray-200">
+          {[
+            { 
+              icon: '🎓', 
+              label: 'শিক্ষা', 
+              badge: '12', 
+              color: 'bg-purple-100 text-purple-700',
+              onClick: () => navigate('/learning')
+            },
+            { 
+              icon: '✍️', 
+              label: 'ব্লগসমূহ', 
+              badge: '5', 
+              color: 'bg-green-100 text-green-700',
+              onClick: () => navigate('/blog')
+            },
+            { icon: '🔬', label: 'রোগ নির্ণয়', badge: 'নতুন', color: 'bg-orange-100 text-orange-700' },
+            { icon: '🤖', label: 'মেশিন টিচার', badge: 'AI', color: 'bg-indigo-100 text-indigo-700' },
+          ].map((item, index) => (
+            <button
+              key={index}
+              onClick={item.onClick}
+              className="w-full flex items-center justify-between p-3 hover:bg-gray-50/80 transition-colors border-b border-gray-100 last:border-b-0"
+            >
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-lg bg-gray-50 flex items-center justify-center">
+                  <span className="text-xl">{item.icon}</span>
+                </div>
+                <span className="text-sm font-medium text-gray-700">{item.label}</span>
               </div>
-              <span className="text-sm font-medium text-gray-700">{item.label}</span>
-            </div>
-            {item.badge && (
               <div className="flex items-center gap-2">
                 <span className={`text-xs font-medium px-2 py-0.5 rounded-full ${item.color}`}>
                   {item.badge}
                 </span>
                 <span className="text-gray-400">→</span>
               </div>
-            )}
-          </button>
-        ))}
+            </button>
+          ))}
+        </div>
       </div>
-    </div> */}
 
-    {/* Support & Settings */}
-    <div className="space-y-3">
-      <h2 className="text-sm font-semibold text-gray-900 px-1">সহায়তা ও সেটিংস</h2>
-      <div className="bg-gradient-to-br from-white to-gray-50/95 backdrop-blur-sm rounded-xl overflow-hidden shadow-md border border-gray-200">
-        {[
-         { icon: '📢', label: 'ইভেন্টসমূহ', badge: 'নতুন', color: 'bg-purple-100 text-purple-700' },
-          { icon: '🛟', label: 'সহায়তা কেন্দ্র', badge: '', color: '', onClick: () => {} },
-          { icon: '⚙️', label: 'সেটিংস', badge: '', color: '', onClick: onSettingsClick },
-          { icon: '🔒', label: 'গোপনীয়তা নীতি', badge: '', color: '', onClick: () => {} },
-          { icon: '📜', label: 'শর্তাবলী', badge: '', color: '', onClick: () => {} },
-          { icon: '❓', label: 'প্রায়শই জিজ্ঞাসিত প্রশ্ন', badge: '', color: '', onClick: () => {} },
-          { icon: '🌐', label: 'ভাষা পরিবর্তন', badge: '', color: '', onClick: () => {} },
-          { icon: '📤', label: 'লগআউট', badge: '', color: '', onClick: () => {} },
-        ].map((item, index) => (
-          <button
-            key={index}
-            onClick={item.onClick}
-            className="w-full flex items-center justify-between p-3 hover:bg-gray-50/80 transition-colors border-b border-gray-100 last:border-b-0"
-          >
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-lg bg-gray-50 flex items-center justify-center">
-                <span className="text-xl">{item.icon}</span>
+      {/* Support & Settings */}
+      <div className="space-y-3">
+        <h2 className="text-sm font-semibold text-gray-900 px-1">সহায়তা ও সেটিংস</h2>
+        <div className="bg-gradient-to-br from-white to-gray-50/95 backdrop-blur-sm rounded-xl overflow-hidden shadow-md border border-gray-200">
+          {[
+            { icon: '📢', label: 'ইভেন্টসমূহ', /*badge: 'নতুন',*/ color: 'bg-purple-100 text-purple-700', onClick: () => handleMenuClick('events') },
+            { icon: '🛟', label: 'সহায়তা কেন্দ্র', onClick: () => {} },
+            { icon: '⚙️', label: 'সেটিংস', onClick: onSettingsClick },
+            { icon: '🔒', label: 'গোপনীয়তা নীতি', onClick: () => handleMenuClick('privacy') },
+            { icon: '📜', label: 'শর্তাবলী', onClick: () => handleMenuClick('terms') },
+            { icon: '❓', label: 'প্রায়শই জিজ্ঞাসিত প্রশ্ন', onClick: () => handleMenuClick('faq') },
+            { icon: '📤', label: 'লগআউট', onClick: () => handleMenuClick('logout') },
+          ].map((item, index) => (
+            <button
+              key={index}
+              onClick={item.onClick}
+              className="w-full flex items-center justify-between p-3 hover:bg-gray-50/80 transition-colors border-b border-gray-100 last:border-b-0"
+            >
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-lg bg-gray-50 flex items-center justify-center">
+                  <span className="text-xl">{item.icon}</span>
+                </div>
+                <span className="text-sm font-medium text-gray-700">{item.label}</span>
               </div>
-              <span className="text-sm font-medium text-gray-700">{item.label}</span>
-            </div>
-            {item.badge && (
-              <div className="flex items-center gap-2">
-                <span className={`text-xs font-medium px-2 py-0.5 rounded-full ${item.color}`}>
-                  {item.badge}
-                </span>
-                <span className="text-gray-400">→</span>
-              </div>
-            )}
-          </button>
-        ))}
+              {/* {item.badge && (
+                <div className="flex items-center gap-2">
+                  <span className={`text-xs font-medium px-2 py-0.5 rounded-full ${item.color}`}>
+                    {item.badge}
+                  </span>
+                  <span className="text-gray-400">→</span>
+                </div>
+              )} */}
+            </button>
+          ))}
+        </div>
       </div>
-    </div>
 
-    {/* Version Info */}
-    <div className="px-1 py-4">
-      <p className="text-xs text-gray-500 text-center">
-        ভার্সন ১.০.০ • AgroNest &copy; ২০২৪
-      </p>
+      {renderModal()}
     </div>
-  </div>
-);
+  );
+};
 
 const EditProfileModal: React.FC<{
   isOpen: boolean;
@@ -251,7 +277,7 @@ const EditProfileModal: React.FC<{
 
   return (
     <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center">
-      <div className="bg-white rounded-2xl w-full max-w-md mx-4 p-6 shadow-xl">
+      <div className="bg-green-100 rounded-2xl w-full max-w-md mx-4 p-6 shadow-xl">
         <div className="flex justify-between items-center mb-6">
           <h2 className="text-xl font-semibold text-gray-800">প্রোফাইল সম্পাদনা</h2>
           <button onClick={onClose} className="p-2 hover:bg-gray-100 rounded-lg">
@@ -335,6 +361,15 @@ const ProfilePage: React.FC = () => {
   const navigate = useNavigate();
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
 
+  // Add handleLogout function
+  const handleLogout = () => {
+    // Clear any stored auth tokens or user data
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
+    // Navigate to sign-in page
+    navigate('/signin');
+  };
+
   const userStats: UserStats = {
     coursesCompleted: 12,
     certificatesEarned: 8,
@@ -385,10 +420,9 @@ const ProfilePage: React.FC = () => {
             </button>
             <h1 className="text-base font-semibold text-green-800">প্রোফাইল</h1>
             <button 
-              onClick={() => setIsEditModalOpen(true)}
               className="p-2 text-green-800 hover:text-green-900 hover:bg-white/10 rounded-lg transition-colors"
             >
-              ⚙️
+              {/* add any button here ----------------------------------------------------------------------------------*/}
             </button>
           </div>
         </div>
@@ -414,7 +448,7 @@ const ProfilePage: React.FC = () => {
         {/* Stats Grid */}
         <div className="grid grid-cols-2 gap-3 mb-6">
           <StatsCard 
-            label="সম্পন্ন কোর্স" 
+            label="কোর্স" 
             value={userStats.coursesCompleted} 
             icon="📚" 
             type="courses"
@@ -440,7 +474,7 @@ const ProfilePage: React.FC = () => {
         </div>
 
         {/* Replace Achievements with Menu Section */}
-        <MenuSection onSettingsClick={() => setIsEditModalOpen(true)} />
+        <MenuSection onSettingsClick={() => setIsEditModalOpen(true)} onLogout={handleLogout} />
       </main>
 
       <EditProfileModal
