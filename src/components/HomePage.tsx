@@ -16,7 +16,7 @@ const HomePage: React.FC = () => {
         {/* Top Header */}
         <div className="p-4 md:px-8 lg:px-16 flex justify-between items-center border-b">
           <div className="flex items-center gap-2">
-            <FiMenu className="h-6 w-6 text-gray-600 cursor-pointer md:hidden" />
+            {/* <FiMenu className="h-6 w-6 text-gray-600 cursor-pointer md:hidden" /> */}
             <h1 className="text-xl md:text-2xl font-bold text-green-700 flex items-center gap-2">
               <span className="text-2xl">🌾</span>
               AgroNest
@@ -33,7 +33,7 @@ const HomePage: React.FC = () => {
               {/* <FiSearch className="h-5 w-5" /> */}
               ✨ব্রাউজ
             </button>
-            <button onClick={() => handleNavigation('/cart')} className="text-gray-600 font-medium hover:text-green-700 flex items-center gap-2">
+            <button onClick={() => handleNavigation('/Cart')} className="text-gray-600 font-medium hover:text-green-700 flex items-center gap-2">
               {/* <FiShoppingCart className="h-5 w-5" /> */}
               🛒কার্ট
             </button>
@@ -49,7 +49,7 @@ const HomePage: React.FC = () => {
               <FiBell className="h-6 w-6 text-gray-600" />
               <span className="absolute top-0 right-0 h-2 w-2 bg-red-500 rounded-full"></span>
             </button>
-            <button className="p-2 hover:bg-gray-100 rounded-full relative">
+            <button onClick={() => handleNavigation('/Cart')} className="p-2 hover:bg-gray-100 rounded-full relative">
               <FiShoppingCart className="h-6 w-6 text-gray-600" />
               <span className="absolute top-0 right-0 h-5 w-5 bg-green-500 rounded-full text-white text-xs flex items-center justify-center">2</span>
             </button>
@@ -190,7 +190,7 @@ const HomePage: React.FC = () => {
           <span className="text-2xl">🛒</span>
           <span className="text-[10px] mt-0.5">কার্ট</span>
         </button>
-        <button onClick={() => handleNavigation('/agriculture')} className="text-gray-600 flex flex-col items-center">
+        <button onClick={() => handleNavigation('/profile')} className="text-gray-600 flex flex-col items-center">
           <span className="text-2xl">👤</span>
           <span className="text-[10px] mt-0.5">প্রোফাইল</span>
         </button>

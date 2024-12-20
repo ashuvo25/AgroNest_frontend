@@ -7,6 +7,8 @@ import HomePage from './components/HomePage'
 import BlogApp from './components/BlogApp'
 import LearningPage from './components/LearningPage'
 import InformationDesk from './components/InfoDesk'
+import Cart from './components/AddToCart'
+import ProfilePage from './components/ProfilePage';
 
 
 
@@ -15,6 +17,7 @@ const App = () => {
     <Router>
       <Routes>
         <Route path="/" element={<SignIn />} />
+        <Route path="/cart" element={<Cart />} />
         <Route path="/infodesk" element={<InformationDesk />} />
         <Route path="/learning" element={<LearningPage />} />
         <Route path="/blog" element={<BlogApp />} />
@@ -22,6 +25,8 @@ const App = () => {
         <Route path="/signup" element={<SignUp />} />
         <Route path="/agriculture" element={<AgricultureApp />} />
         <Route path="/home_page" element={<HomePage />} />
+        <Route path="/profile" element={<ProfilePage />} />
+        {/* <Route path="/bankai" element={<BankaiPage />} /> */}
       </Routes>
     </Router>
   )

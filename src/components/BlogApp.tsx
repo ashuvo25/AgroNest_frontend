@@ -29,7 +29,7 @@ const BlogApp: React.FC = () => {
   ];
 
   return (
-    <div className="flex flex-col min-h-screen bg-[#f8f9fa]">
+    <div className="flex flex-col min-h-screen bg-[#f8f9fa] pb-[60px] md:pb-0"> {/* Added padding bottom for mobile */}
       {/* Header */}
       <header className="bg-gradient-to-r from-[#ffffff] to-[#ffffff] fixed top-0 w-full z-50 rounded-b-2xl shadow-sm">
         <div className="container mx-auto px-3 max-w-5xl">
@@ -131,8 +131,8 @@ const BlogApp: React.FC = () => {
         </div>
       </main>
 
-      {/* Footer Navigation - Modified for mobile only */}
-      <footer className="sticky bottom-0 left-0 right-0 bg-white border-t border-[#E8F3E8] shadow-lg z-50 md:hidden">
+      {/* Mobile Footer Navigation */}
+      <footer className="fixed bottom-0 left-0 right-0 bg-white border-t border-[#E8F3E8] shadow-lg z-50 md:hidden">
         <nav className="container mx-auto flex justify-around py-1.5 max-w-6xl">
           {[
             { icon: '🏠', label: 'হোম', active: true },
@@ -143,14 +143,12 @@ const BlogApp: React.FC = () => {
             <button 
               key={index} 
               className={`flex flex-col items-center group px-3 py-1 rounded-lg
-                       ${item.active ? 'bg-[#E8F3E8]' : 'hover:bg-[#E8F3E8]/50'}`}
+                       ${item.active ? 'text-green-600 bg-green-50' : 'text-gray-600 hover:bg-green-50/50'}`}
             >
               <div className="text-base group-hover:scale-110 transition-transform">
                 {item.icon}
               </div>
-              <span className={`text-[10px] mt-0.5 font-medium ${
-                item.active ? 'text-[#2C5F2D]' : 'text-gray-600'
-              }`}>
+              <span className="text-[10px] mt-0.5 font-medium">
                 {item.label}
               </span>
             </button>
