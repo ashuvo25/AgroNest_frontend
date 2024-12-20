@@ -153,7 +153,7 @@ const MenuSection: React.FC<{
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-4"> {/* Changed from space-y-6 to space-y-4 */}
       {/* Main Features */}
       <div className="space-y-3">
         <h2 className="text-sm font-semibold text-gray-900 px-1">মূল ফিচারসমূহ</h2>
@@ -236,6 +236,9 @@ const MenuSection: React.FC<{
       </div>
 
       {renderModal()}
+      <div className="text-center mt-4 mb-2"> {/* Added mb-2 and changed mt-8 to mt-4 */}
+        <p className="text-xs text-gray-400">AgroNest v1.0.0</p>
+      </div>
     </div>
   );
 };
@@ -418,33 +421,24 @@ const ProfilePage: React.FC = () => {
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
               </svg>
             </button>
-            <h1 className="text-base font-semibold text-green-800">প্রোফাইল</h1>
-            <button 
-              className="p-2 text-green-800 hover:text-green-900 hover:bg-white/10 rounded-lg transition-colors"
-            >
-              {/* add any button here ----------------------------------------------------------------------------------*/}
-            </button>
+            {/* <h1 className="text-base font-semibold text-green-800">প্রোফাইল</h1> */}
+            <div className="flex items-center gap-2">
+              <div className="text-right mr-2">
+                <h2 className="text-sm font-medium text-green-800">কৃষক আহমেদ</h2>
+                <p className="text-xs text-green-600">জৈব কৃষি বিশেষজ্ঞ</p>
+              </div>
+              <img
+                src="src\assets\farmer.jpg"
+                alt="Profile"
+                className="w-8 h-8 rounded-lg object-cover border border-white shadow-sm"
+              />
+            </div>
           </div>
         </div>
       </header>
 
       {/* Main Content */}
-      <main className="container mx-auto px-4 pt-20 pb-24 md:pb-8 max-w-2xl">
-        {/* Profile Header - Removed edit button */}
-        <div className="bg-gradient-to-br from-green-50 to-emerald-50/90 backdrop-blur-sm rounded-xl p-4 shadow-sm border border-green-100 mb-4 hover:shadow-md transition-all duration-200">
-          <div className="flex items-center gap-4">
-            <img
-              src="src\assets\farmer.jpg"
-              alt="Profile"
-              className="w-20 h-20 rounded-xl object-cover border-2 border-white shadow-sm"
-            />
-            <div className="flex-1">
-              <h2 className="font-bold text-green-900">কৃষক আহমেদ</h2>
-              <p className="text-sm text-green-600">জৈব কৃষি বিশেষজ্ঞ</p>
-            </div>
-          </div>
-        </div>
-
+      <main className="container mx-auto px-4 pt-20 pb-6 md:pb-4 max-w-2xl"> {/* Changed pb-24 to pb-6 and md:pb-8 to md:pb-4 */}
         {/* Stats Grid */}
         <div className="grid grid-cols-2 gap-3 mb-6">
           <StatsCard 
