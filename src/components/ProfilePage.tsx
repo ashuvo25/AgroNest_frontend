@@ -79,7 +79,7 @@ const StatsCard: React.FC<{
           <span className="text-2xl">{icon}</span>
         </div>
         <div>
-          <h3 className="text-sm font-medium text-gray-600">{label}</h3>
+          <h3 className="text-sm font-bold text-gray-700">{label}</h3>
           <p className={`text-lg font-bold ${colors.text}`}>{value}</p>
         </div>
       </div>
@@ -162,18 +162,25 @@ const MenuSection: React.FC<{
             { 
               icon: '🎓', 
               label: 'শিক্ষা', 
-              badge: '12', 
+              badge: 'প্রদান, প্রাপ্ত, সার্টিফিকেট', 
               color: 'bg-purple-100 text-purple-700',
               onClick: () => navigate('/learning')
             },
             { 
               icon: '✍️', 
               label: 'ব্লগসমূহ', 
-              badge: '5', 
+              badge: 'লিখুন, পড়ুন, ', 
               color: 'bg-green-100 text-green-700',
               onClick: () => navigate('/blog')
             },
-            { icon: '🔬', label: 'রোগ নির্ণয়', badge: 'নতুন', color: 'bg-orange-100 text-orange-700' },
+            { 
+              icon: '✍️', 
+              label: 'কৃষি তথ্য ডেস্ক', 
+              badge: 'তথ্য জানুন ,পড়ুন ', 
+              color: 'bg-yellow-100 text-yellow-700',
+              onClick: () => navigate('/infodesk')
+            },
+            { icon: '🔬', label: 'রোগ নির্ণয়', badge: 'ML', color: 'bg-orange-100 text-orange-700' },
             { icon: '🤖', label: 'মেশিন টিচার', badge: 'AI', color: 'bg-indigo-100 text-indigo-700' },
           ].map((item, index) => (
             <button
@@ -203,8 +210,8 @@ const MenuSection: React.FC<{
         <h2 className="text-sm font-semibold text-gray-900 px-1">সহায়তা ও সেটিংস</h2>
         <div className="bg-gradient-to-br from-white to-gray-50/95 backdrop-blur-sm rounded-xl overflow-hidden shadow-md border border-gray-200">
           {[
-            { icon: '📢', label: 'ইভেন্টসমূহ', /*badge: 'নতুন',*/ color: 'bg-purple-100 text-purple-700', onClick: () => handleMenuClick('events') },
-            { icon: '🛟', label: 'সহায়তা কেন্দ্র', onClick: () => {} },
+            { icon: '📢', label: 'ইভেন্টসমূহ', color: 'bg-purple-100 text-purple-700', onClick: () => navigate('/event') },
+            // { icon: '🛟', label: 'সহায়তা কেন্দ্র', onClick: () => {} },
             { icon: '⚙️', label: 'সেটিংস', onClick: onSettingsClick },
             { icon: '🔒', label: 'গোপনীয়তা নীতি', onClick: () => handleMenuClick('privacy') },
             { icon: '📜', label: 'শর্তাবলী', onClick: () => handleMenuClick('terms') },
@@ -222,14 +229,6 @@ const MenuSection: React.FC<{
                 </div>
                 <span className="text-sm font-medium text-gray-700">{item.label}</span>
               </div>
-              {/* {item.badge && (
-                <div className="flex items-center gap-2">
-                  <span className={`text-xs font-medium px-2 py-0.5 rounded-full ${item.color}`}>
-                    {item.badge}
-                  </span>
-                  <span className="text-gray-400">→</span>
-                </div>
-              )} */}
             </button>
           ))}
         </div>
@@ -380,26 +379,6 @@ const ProfilePage: React.FC = () => {
     followersCount: 124
   };
 
-  const achievements: Achievement[] = [
-    {
-      icon: "🎓",
-      title: "কৃষি বিশেষজ্ঞ সার্টিফিকেশন",
-      description: "জৈব চাষাবাদ পদ্ধতিতে সর্বোচ্চ নম্বর অর্জন",
-      date: "২০ মার্চ ২০২৪"
-    },
-    {
-      icon: "🌟",
-      title: "সেরা লেখক পুরস্কার",
-      description: "সর্বাধিক পঠিত কৃষি নিবন্ধ লেখক",
-      date: "১৫ মার্চ ২০২৪"
-    },
-    {
-      icon: "🏆",
-      title: "টপ কন্ট্রিবিউটর",
-      description: "সর্বোচ্চ মানের তথ্য যোগদানকারী",
-      date: "১০ মার্চ ২০২৪"
-    }
-  ];
 
   const handleUpdateProfile = (data: Partial<EditProfileForm>) => {
     console.log('Profile update data:', data);
@@ -419,7 +398,7 @@ const ProfilePage: React.FC = () => {
             >
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-              </svg>
+              </svg> 
             </button>
             {/* <h1 className="text-base font-semibold text-green-800">প্রোফাইল</h1> */}
             <div className="flex items-center gap-2">
@@ -463,22 +442,4 @@ const ProfilePage: React.FC = () => {
             label="অনুসারী" 
             value={userStats.followersCount} 
             icon="👥" 
-            type="followers"
-          />
-        </div>
-
-        {/* Replace Achievements with Menu Section */}
-        <MenuSection onSettingsClick={() => setIsEditModalOpen(true)} onLogout={handleLogout} />
-      </main>
-
-      <EditProfileModal
-        isOpen={isEditModalOpen}
-        onClose={() => setIsEditModalOpen(false)}
-        onUpdate={handleUpdateProfile}
-        currentUsername="কৃষক আহমেদ"
-      />
-    </div>
-  );
-};
-
-export default ProfilePage;
+            type="followers"          />        </div>        {/* Replace Achievements with Menu Section */}        <MenuSection onSettingsClick={() => setIsEditModalOpen(true)} onLogout={handleLogout} />      </main>      <EditProfileModal        isOpen={isEditModalOpen}        onClose={() => setIsEditModalOpen(false)}        onUpdate={handleUpdateProfile}        currentUsername="কৃষক আহমেদ"      />    </div>  );};export default ProfilePage;

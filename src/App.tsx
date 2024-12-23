@@ -2,13 +2,17 @@ import React from 'react'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import SignIn from './components/SignIn'
 import SignUp from './components/SignUp'
-import AgricultureApp from './components/AgricultureApp'
+// import AgricultureApp from '../public/AgricultureApp'
 import HomePage from './components/HomePage'  
 import BlogApp from './components/BlogApp'
 import LearningPage from './components/LearningPage'
 import InformationDesk from './components/InfoDesk'
 import Cart from './components/AddToCart'
 import ProfilePage from './components/ProfilePage';
+import EventsPage from './components/EventPage'
+import Marketplace from './components/Marketplace'
+import RentalPage from './components/RentalPage'
+import RentalDetailsPage from './components/RentalDetailsPage'
 
 
 
@@ -23,10 +27,13 @@ const App = () => {
         <Route path="/blog" element={<BlogApp />} />
         <Route path="/signin" element={<SignIn />} />
         <Route path="/signup" element={<SignUp />} />
-        <Route path="/agriculture" element={<AgricultureApp />} />
+        <Route path="/rent" element={<RentalPage />} />
+        <Route path="/rent/:id" element={<RentalDetailsPage />} />
         <Route path="/home_page" element={<HomePage />} />
         <Route path="/profile" element={<ProfilePage />} />
-        {/* <Route path="/bankai" element={<BankaiPage />} /> */}
+        <Route path="/event" element={<EventsPage />} />
+        <Route path="/marketplace" element={<Marketplace />} />
+        {/* <Route path="/marketplace/product/:id" element={<ProductDetail />} /> */}
       </Routes>
     </Router>
   )
