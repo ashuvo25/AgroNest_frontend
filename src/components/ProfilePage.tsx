@@ -181,7 +181,18 @@ const MenuSection: React.FC<{
               onClick: () => navigate('/infodesk')
             },
             { icon: '🔬', label: 'রোগ নির্ণয়', badge: 'ML', color: 'bg-orange-100 text-orange-700' },
-            { icon: '🤖', label: 'মেশিন টিচার', badge: 'AI', color: 'bg-indigo-100 text-indigo-700' },
+            { 
+              icon: '🤖', 
+              label: 'মেশিন টিচার', 
+              badge: 'AI', 
+              color: 'bg-indigo-100 text-indigo-700',
+              onClick: () => {
+                const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiZXhwIjoxNzM1MTA2MTA0fQ.7_0Z5N83fE3gT8zlr9T1i55Q0T5dwoF7-eFL56f7krM";
+                // Use your network IP address here
+                const url = `http://192.168.0.103:5000/chatbot?token=${token}`;  // Replace with your actual IP
+                window.open(url, '_blank', 'noopener,noreferrer');
+              }
+            },
           ].map((item, index) => (
             <button
               key={index}

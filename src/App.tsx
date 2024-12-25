@@ -13,6 +13,7 @@ import EventsPage from './components/EventPage'
 import Marketplace from './components/Marketplace'
 import RentalPage from './components/RentalPage'
 import RentalDetailsPage from './components/RentalDetailsPage'
+import ChatBot from './components/ChatBot'
 
 
 
@@ -33,7 +34,7 @@ const App = () => {
         <Route path="/profile" element={<ProfilePage />} />
         <Route path="/event" element={<EventsPage />} />
         <Route path="/marketplace" element={<Marketplace />} />
-        {/* <Route path="/marketplace/product/:id" element={<ProductDetail />} /> */}
+        <Route path="/chat" element={<ChatBot />} />
       </Routes>
     </Router>
   )
