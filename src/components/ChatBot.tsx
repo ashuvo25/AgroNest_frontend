@@ -138,7 +138,7 @@ const ChatBot: React.FC = () => {
   useEffect(() => {
     const init = async () => {
       marked.setOptions({
-        highlight: (code, lang) => hljs.highlightAuto(code).value,
+        // highlight: (code, lang) => hljs.highlightAuto(code).value,
         breaks: true
       });
 
@@ -584,15 +584,15 @@ const ChatBot: React.FC = () => {
       <div
         key={chat.id}
         onClick={() => handleChatSelect(chat.id)}
-        className="group relative w-full p-3 text-left text-white rounded-lg 
-          bg-white/10 hover:bg-white/20 transition-colors
-          border border-white/20 hover:border-white/40 mb-2 cursor-pointer"
+        className="group relative w-full p-3 text-left text-white/90 rounded-lg 
+          bg-white/5 hover:bg-white/10 transition-colors
+          border border-white/10 hover:border-white/20 mb-2 cursor-pointer"
       >
         <div className="pr-12"> {/* Increased padding to accommodate delete icon */}
           <div className="truncate text-sm font-medium">
             {previewText}
           </div>
-          <div className="text-xs text-gray-400 mt-1">
+          <div className="text-xs text-white/60 mt-1">
             {new Date(chat.timestamp).toLocaleString('bn-BD', {
               year: 'numeric',
               month: 'long',
@@ -605,9 +605,9 @@ const ChatBot: React.FC = () => {
         <button
           onClick={(e) => handleDeleteChat(chat.id, e)}
           className="absolute right-2 top-1/2 -translate-y-1/2 
-            text-red-400 hover:text-red-600 transition-all
+            text-white/40 hover:text-red-400 transition-all
             w-8 h-8 flex items-center justify-center
-            rounded-full hover:bg-white/10"
+            rounded-full hover:bg-white/5"
           title="মুছে ফেলুন"
         >
           <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor">
@@ -660,8 +660,8 @@ const ChatBot: React.FC = () => {
         className={`
           max-w-[80%] rounded-2xl shadow-md
           ${message.sender === 'user' 
-            ? 'bg-green-600 text-white' 
-            : 'bg-white text-gray-800'}
+            ? 'bg-green-400 text-black' 
+            : 'bg-green-200 text-gray-800 border border-green-100'}
           p-4 animate-fadeIn whitespace-pre-wrap break-words
         `}
         dangerouslySetInnerHTML={{ 
@@ -674,23 +674,24 @@ const ChatBot: React.FC = () => {
   // Update the return statement to use SignInForm component
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-green-50">
-      {/* Side Menu */}
+      {/* Side Menu - Update colors and styling */}
       <nav 
         className={`
-          fixed inset-y-0 left-0 w-80 
-          bg-gradient-to-b from-slate-800 to-blue-900
+          fixed inset-y-0 left-0
+          w-full sm:w-[300px] md:w-[320px] lg:w-[380px]
+          bg-gradient-to-br from-blue-700 via-blue-300 to-blue-800
           transform transition-transform duration-300 ease-in-out z-50
           flex flex-col
           ${showSideMenu ? 'translate-x-0' : '-translate-x-full'}
         `}
       >
-        {/* Header part */}
-        <div className="p-4 border-b border-white/10">
+        {/* Header part - Update border color */}
+        <div className="p-4 border-b border-green-500/20">
           <div className="flex items-center justify-between">
-            <h2 className="text-white text-xl font-bold">Chat History</h2>
+            <h2 className="text-white/90 text-xl font-bold">Chat History</h2>
             <button 
               onClick={() => setShowSideMenu(false)}
-              className="text-gray-300 hover:text-white transition-colors"
+              className="text-white/70 hover:text-white transition-colors"
             >
               <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -698,76 +699,85 @@ const ChatBot: React.FC = () => {
             </button>
           </div>
         </div>
-        {/* Scrollable content */}
-        <div className="flex-1 overflow-y-auto p-4">
+        {/* Scrollable content - Update background */}
+        <div className="flex-1 overflow-y-auto p-4 bg-gradient-to-b from-green-600/10 to-green-700/10 backdrop-blur-sm">
           {renderChatHistory()}
         </div>
       </nav>
 
-      {/* Main Content */}
-      <div className="flex-1">
-        {/* Header */}
-        <header className="fixed top-0 w-full py-3 px-4 bg-white/95 backdrop-blur-md shadow-sm z-40">
-          <div className="flex items-center justify-between max-w-6xl mx-auto">
-            <div className="flex items-center gap-3">
+      {/* Main Content - Add responsive padding and width */}
+      <div className="flex-1 relative">
+        {/* Header - Make responsive */}
+        <header className="fixed top-0 w-full py-2 px-3 sm:px-4 bg-green-50/90 backdrop-blur-md shadow-sm z-40 border-b border-green-100">
+          <div className="flex items-center justify-between max-w-7xl mx-auto">
+            <div className="flex items-center gap-2">
               <button
                 onClick={() => setShowSideMenu(true)}
-                className="p-1.5 hover:bg-gray-100 rounded-md transition-colors"
+                className="p-1 hover:bg-green-100 rounded-md transition-colors"
                 title="Show chat history"
               >
-                <svg className="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg className="w-4 h-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
                 </svg>
               </button>
-              <h1 className="text-lg font-semibold flex items-center gap-2 text-gray-800">
-                <svg className="w-6 h-6 text-green-600" fill="currentColor" viewBox="0 0 24 24">
+              <h1 className="text-sm sm:text-base font-medium flex items-center gap-1.5 text-gray-700">
+                <svg className="w-4 h-4 sm:w-5 sm:h-5 text-green-600" fill="currentColor" viewBox="0 0 24 24">
                   <path d="M7.5,3C5,3,3,5,3,7.5S5,12,7.5,12S12,10,12,7.5S10,3,7.5,3z" />
                 </svg>
                 <span>কৃষকের সহায়ক</span>
               </h1>
             </div>
             
-            <div className="flex items-center gap-3">
-              <button 
-                onClick={handleNewChat}
-                className="bg-green-600 text-white px-3 py-1.5 text-sm rounded-md
-                  hover:bg-green-700 transition-colors flex items-center gap-2"
-              >
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
-                </svg>
-                নতুন চ্যাট
-              </button>
-            </div>
+            <button 
+              onClick={handleNewChat}
+              className="bg-green-600/90 hover:bg-green-700 text-white px-2 sm:px-2.5 py-1 text-xs sm:text-sm rounded
+                transition-colors flex items-center gap-1 sm:gap-1.5 font-medium"
+            >
+              <svg className="w-3 h-3 sm:w-3.5 sm:h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+              </svg>
+              <span className="hidden xs:inline">নতুন চ্যাট</span>
+            </button>
           </div>
         </header>
 
-        {/* Messages Container - Update top padding to match new header height */}
-        <div ref={responseRef} className="pt-16 pb-32 px-6 h-screen overflow-y-auto">
-          <div className="max-w-3xl mx-auto space-y-6">
-            {messages.map((message, index) => renderMessage(message, index))}
-            {typing.isTyping && (
-              <div className="flex justify-start">
-                <div className="max-w-[80%] rounded-2xl shadow-md bg-white text-gray-800 p-4 animate-fadeIn">
-                  {typing.text}
-                  <span className="inline-block animate-pulse">▋</span>
-                </div>
+        {/* Messages Container - Responsive padding and width */}
+        <div ref={responseRef} className="pt-12 pb-24 px-2 sm:px-4 md:px-6 h-screen overflow-y-auto">
+          <div className="max-w-2xl sm:max-w-3xl lg:max-w-4xl mx-auto space-y-4 sm:space-y-6">
+            {messages.map((message, index) => (
+              <div 
+                key={index}
+                className={`flex ${message.sender === 'user' ? 'justify-end' : 'justify-start'}`}
+              >
+                <div 
+                  className={`
+                    max-w-[85%] sm:max-w-[80%] rounded-2xl shadow-md
+                    ${message.sender === 'user' 
+                      ? 'bg-green-400 text-black' 
+                      : 'bg-green-200 text-gray-800 border border-green-100'}
+                    p-3 sm:p-4 text-sm sm:text-base animate-fadeIn whitespace-pre-wrap break-words
+                  `}
+                  dangerouslySetInnerHTML={{ 
+                    __html: message.content.split('\n').join('<br/>') 
+                  }}
+                />
               </div>
-            )}
+            ))}
+            {/* ...typing indicator... */}
           </div>
         </div>
 
-        {/* Input Form */}
-        <div className="fixed bottom-0 w-full p-4 bg-white/95 backdrop-blur-md border-t border-gray-200">
-          <div className="max-w-3xl mx-auto flex gap-4">
+        {/* Input Form - Make responsive */}
+        <div className="fixed bottom-0 w-full p-2 sm:p-4 bg-white/95 backdrop-blur-md border-t border-gray-200">
+          <div className="max-w-2xl sm:max-w-3xl lg:max-w-4xl mx-auto flex gap-2 sm:gap-4">
             <textarea
               ref={textareaRef}
               value={prompt}
               onChange={(e) => setPrompt(e.target.value)}
               placeholder="কৃষি সম্পর্কিত প্রশ্ন করুন..."
-              className="flex-1 p-3 rounded-lg border border-gray-300
+              className="flex-1 p-2 sm:p-3 text-sm sm:text-base rounded-lg border border-gray-300
                 focus:ring-2 focus:ring-green-500 focus:border-green-500
-                resize-none h-[50px] min-h-[50px] max-h-[50px] bg-gray-50"
+                resize-none h-[40px] sm:h-[50px] min-h-[40px] sm:min-h-[50px] max-h-[40px] sm:max-h-[50px] bg-gray-50"
               onKeyDown={handleKeyPress}
               disabled={isLoading}
               autoComplete="off"
@@ -782,15 +792,15 @@ const ChatBot: React.FC = () => {
                 }
               }}
               disabled={isLoading || !prompt.trim()}
-              className={`p-3 text-white rounded-lg transition-colors
+              className={`p-2 sm:p-3 text-white rounded-lg transition-colors
                 ${(isLoading || !prompt.trim())
                   ? 'bg-gray-400 cursor-not-allowed' 
                   : 'bg-green-600 hover:bg-green-700'}`}
             >
               {isLoading ? (
-                <div className="w-6 h-6 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                <div className="w-5 h-5 sm:w-6 sm:h-6 border-2 border-white border-t-transparent rounded-full animate-spin" />
               ) : (
-                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg className="w-5 h-5 sm:w-6 sm:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
                 </svg>
               )}
@@ -799,10 +809,10 @@ const ChatBot: React.FC = () => {
         </div>
       </div>
 
-      {/* Sign-in Modal */}
+      {/* Sign-in Modal - Make responsive */}
       {showSignIn && (
-        <div className="fixed inset-0 flex items-center justify-center bg-black/50 z-50">
-          <div className="bg-white p-6 rounded-lg shadow-xl max-w-md w-full mx-4">
+        <div className="fixed inset-0 flex items-center justify-center p-4 bg-black/50 z-50">
+          <div className="bg-white w-full max-w-md rounded-lg shadow-xl mx-auto">
             <div className="flex justify-between items-center mb-6">
               <h2 className="text-xl font-bold">
                 {isTokenMode ? 'Enter Token' : 'সাইন ইন করুন'}

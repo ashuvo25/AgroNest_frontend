@@ -1,0 +1,17 @@
+/* Add these styles */
+.step {
+  @apply relative flex items-center justify-center w-8 h-8 rounded-full text-sm font-medium;
+}
+
+.step:not(:last-child)::after {
+  content: '';
+  @apply absolute left-full w-full h-0.5 bg-gray-200;
+}
+
+.step.active {
+  @apply bg-emerald-500 text-white;
+}
+
+.step.active::after {
+  @apply bg-emerald-500;
+}

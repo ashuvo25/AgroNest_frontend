@@ -176,7 +176,7 @@ const SignIn: React.FC = () => {
               </div>
 
               {/* Google Sign In - Reduced height */}
-              <button
+              {/* <button
                 type="button"
                 className="w-full flex items-center justify-center px-4 py-2.5 border border-gray-200 rounded-lg text-sm"
               >
@@ -187,7 +187,7 @@ const SignIn: React.FC = () => {
                   <path fill="#34A853" d="M12 22c2.7 0 5-1 6.7-2.6l-3.2-2.5c-.9.6-2 1-3.5 1-2.6 0-4.7-1.7-5.5-3.9L3.2 16.3C4.8 19.8 8.1 22 12 22z"/>
                 </svg>
                 <span>গুগল দিয়ে প্রবেশ করুন</span>
-              </button>
+              </button> */}
 
               {/* Add Demo Access Button just before the registration link */}
               <button
