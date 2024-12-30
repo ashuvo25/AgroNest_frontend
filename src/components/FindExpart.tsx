@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { Search, Filter, Star, MessageCircle, Phone, Calendar, ChevronRight, MapPin, ArrowLeft } from 'lucide-react';
 
+const DEFAULT_AVATAR = 'https://xsgames.co/randomusers/assets/avatars/placeholder.jpg';
+
 const ExpertFinder = () => {
   const [showFilter, setShowFilter] = useState(false);
   const [selectedExpertise, setSelectedExpertise] = useState('সকল');
@@ -177,95 +179,96 @@ interface ExpertCardProps {
   image: string;
 }
 
-const ExpertCard = ({ name, specialty, expertise, rating, reviews, experience, available, image }: ExpertCardProps) => (
-  <div className="bg-white rounded-2xl shadow-sm border border-emerald-100 hover:shadow-md transition-all duration-200 overflow-hidden h-[200px]">
-    <div className="flex h-full">
-      <div className="w-32 h-full flex-shrink-0">
-        <img
-          src={image}
-          alt={name}
-          className="w-full h-full object-cover"
-          onError={(e) => {
-            e.currentTarget.src = 'https://xsgames.co/randomusers/assets/avatars/placeholder.jpg';
-            e.currentTarget.onerror = null;
-          }}
-        />
-      </div>
-      
-      <div className="flex-1 min-w-0 p-4 flex flex-col">
-        <div>
-          <div className="flex justify-between items-start mb-2">
-            <div>
-              <h3 className="font-semibold text-emerald-900 text-lg">{name}</h3>
-              <p className="text-xs text-emerald-600">{specialty}</p>
-            </div>
-            <span className="flex items-center text-sm bg-emerald-50 px-2 py-1 rounded-full">
-              <Star className="w-4 h-4 text-yellow-500 mr-1" fill="currentColor" />
-              {rating}
-            </span>
-          </div>
-          
-          <div className="flex flex-wrap gap-1 mb-2">
-            {expertise.slice(0, 3).map((skill, index) => (
-              <span 
-                key={index} 
-                className="px-2 py-0.5 bg-emerald-50 text-emerald-600 text-xs font-medium rounded-full"
-              >
-                {skill}
-              </span>
-            ))}
-          </div>
+const ExpertCard = ({ name, specialty, expertise, rating, reviews, experience, available, image }: ExpertCardProps) => {
+  const [imgError, setImgError] = useState(false);
 
-          <div className="flex items-center gap-3 text-sm text-emerald-700">
-            <span className="font-medium">{experience}</span>
-            <span className="text-emerald-300">•</span>
-            <span>{reviews} রিভিউ</span>
-          </div>
+  return (
+    <div className="bg-white rounded-2xl shadow-sm border border-emerald-100 hover:shadow-md transition-all duration-200 overflow-hidden h-[200px]">
+      <div className="flex h-full">
+        <div className="w-32 h-full flex-shrink-0">
+          <img
+            src={imgError ? DEFAULT_AVATAR : image}
+            alt={name}
+            className="w-full h-full object-cover"
+            onError={() => setImgError(true)}
+          />
         </div>
+        
+        <div className="flex-1 min-w-0 p-4 flex flex-col">
+          <div>
+            <div className="flex justify-between items-start mb-2">
+              <div>
+                <h3 className="font-semibold text-emerald-900 text-lg">{name}</h3>
+                <p className="text-xs text-emerald-600">{specialty}</p>
+              </div>
+              <span className="flex items-center text-sm bg-emerald-50 px-2 py-1 rounded-full">
+                <Star className="w-4 h-4 text-yellow-500 mr-1" fill="currentColor" />
+                {rating}
+              </span>
+            </div>
+            
+            <div className="flex flex-wrap gap-1 mb-2">
+              {expertise.slice(0, 3).map((skill, index) => (
+                <span 
+                  key={index} 
+                  className="px-2 py-0.5 bg-emerald-50 text-emerald-600 text-xs font-medium rounded-full"
+                >
+                  {skill}
+                </span>
+              ))}
+            </div>
 
-        <div className="mt-auto pt-3 flex items-center justify-between border-t border-emerald-50">
-          {/* <span className="text-sm font-medium text-emerald-600 bg-emerald-50 px-3 py-1 rounded-full ">
-            Available {available}
-          </span> */}
-          <div className="flex gap-1.5">
-            <button className="p-2 rounded-full bg-emerald-50 hover:bg-emerald-100 transition-colors hover:text-emerald-700 group">
-            <span className="block text-center">
-              <img 
-                src="/src/assets/icons/chat.png" 
-                alt="মেসেজ" 
-               className="w-4 h-4 text-emerald-600 group-hover:scale-110 transition-transform"
-              />
-              {/* <span className="text-xs text-emerald-900">কল</span> */}
-            </span>
-            </button>
-            <button className="p-2 rounded-full bg-emerald-50 hover:bg-emerald-100 transition-colors hover:text-emerald-700 group">
-            <span className="block text-center">
-              <img 
-                src="/src/assets/icons/phone.png"
-                alt="কল" 
-               className="w-4 h-4 text-emerald-600 group-hover:scale-110 transition-transform"
-              />
-              {/* <span className="text-xs text-emerald-900">কল</span> */}
-            </span>
-            </button>
-            <button className="p-2 rounded-full bg-emerald-50 hover:bg-emerald-100 transition-colors hover:text-emerald-700 group">
-            <span className="block text-center">
-              <img 
-                src="/src/assets/icons/scadule.png"
-                alt="শিডিউল" 
-               className="w-4 h-4 text-emerald-600 group-hover:scale-110 transition-transform"
-              />
-              {/* <span className="text-xs text-emerald-900">কল</span> */}
-            </span>
-            </button>
-            <button className="p-2 rounded-full bg-emerald-600 hover:bg-emerald-700 transition-all text-white hover:shadow-lg hover:shadow-emerald-100 group">
-              <ChevronRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
-            </button>
+            <div className="flex items-center gap-3 text-sm text-emerald-700">
+              <span className="font-medium">{experience}</span>
+              <span className="text-emerald-300">•</span>
+              <span>{reviews} রিভিউ</span>
+            </div>
+          </div>
+
+          <div className="mt-auto pt-3 flex items-center justify-between border-t border-emerald-50">
+            {/* <span className="text-sm font-medium text-emerald-600 bg-emerald-50 px-3 py-1 rounded-full ">
+              Available {available}
+            </span> */}
+            <div className="flex gap-1.5">
+              <button className="p-2 rounded-full bg-emerald-50 hover:bg-emerald-100 transition-colors hover:text-emerald-700 group">
+              <span className="block text-center">
+                <img 
+                  src="/src/assets/icons/chat.png" 
+                  alt="মেসেজ" 
+                className="w-4 h-4 text-emerald-600 group-hover:scale-110 transition-transform"
+                />
+                {/* <span className="text-xs text-emerald-900">কল</span> */}
+              </span>
+              </button>
+              <button className="p-2 rounded-full bg-emerald-50 hover:bg-emerald-100 transition-colors hover:text-emerald-700 group">
+              <span className="block text-center">
+                <img 
+                  src="/src/assets/icons/phone.png"
+                  alt="কল" 
+                className="w-4 h-4 text-emerald-600 group-hover:scale-110 transition-transform"
+                />
+                {/* <span className="text-xs text-emerald-900">কল</span> */}
+              </span>
+              </button>
+              <button className="p-2 rounded-full bg-emerald-50 hover:bg-emerald-100 transition-colors hover:text-emerald-700 group">
+              <span className="block text-center">
+                <img 
+                  src="/src/assets/icons/scadule.png"
+                  alt="শিডিউল" 
+                className="w-4 h-4 text-emerald-600 group-hover:scale-110 transition-transform"
+                />
+                {/* <span className="text-xs text-emerald-900">কল</span> */}
+              </span>
+              </button>
+              <button className="p-2 rounded-full bg-emerald-600 hover:bg-emerald-700 transition-all text-white hover:shadow-lg hover:shadow-emerald-100 group">
+                <ChevronRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
+              </button>
+            </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
-);
+  );
+};
 
 export default ExpertFinder;

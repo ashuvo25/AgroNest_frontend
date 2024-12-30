@@ -1,10 +1,17 @@
 import React, { useState } from 'react';
 import { ChevronLeft, ChevronRight, Heart } from 'lucide-react';
 
-
 const AgricultureExpertBooking = () => {
   const [selectedDate, setSelectedDate] = useState(24);
   const [selectedTime, setSelectedTime] = useState('8:00');
+
+  // Add state for image loading errors
+  const [bgImgError, setBgImgError] = useState(false);
+  const [profileImgError, setProfileImgError] = useState(false);
+
+  // Default images
+  const DEFAULT_BG = '/src/assets/default-bg.jpg';
+  const DEFAULT_PROFILE = '/src/assets/default-profile.jpg';
 
   const dates = [
     { day: 22, weekday: 'শুক্রবার' },
@@ -24,10 +31,10 @@ const AgricultureExpertBooking = () => {
             {/* Background with overlay */}
             <div className="absolute inset-0">
               <img
-                src="/src/assets/eng.jpg"
+                src={bgImgError ? DEFAULT_BG : "/src/assets/eng.jpg"}
                 alt="Background"
                 className="w-full h-full object-cover"
-
+                onError={() => setBgImgError(true)}
               />
               <div className="absolute inset-0 bg-gradient-to-r from-emerald-600/80 to-emerald-700/80"></div>
             </div>
@@ -45,10 +52,10 @@ const AgricultureExpertBooking = () => {
             {/* Profile Image */}
             <div className="absolute -bottom-16 left-6 w-32 h-32 rounded-2xl overflow-hidden border-4 border-white shadow-xl">
               <img
-                src="/src/assets/eng.jpg"
+                src={profileImgError ? DEFAULT_PROFILE : "/src/assets/eng.jpg"}
                 alt="Agriculture Expert"
                 className="w-full h-full object-cover"
-
+                onError={() => setProfileImgError(true)}
               />
             </div>
           </div>
