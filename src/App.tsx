@@ -14,6 +14,8 @@ import Marketplace from './components/Marketplace'
 import RentalPage from './components/RentalPage'
 import RentalDetailsPage from './components/RentalDetailsPage'
 import ChatBot from './components/ChatBot'
+import AgricultureExpertBooking from './components/exparts'
+import ExpertFinder from './components/FindExpart'
 
 
 
@@ -35,6 +37,8 @@ const App = () => {
         <Route path="/event" element={<EventsPage />} />
         <Route path="/marketplace" element={<Marketplace />} />
         <Route path="/chat" element={<ChatBot />} />
+        <Route path="/expartprof" element={<AgricultureExpertBooking />} />
+        <Route path="/exparts" element={<ExpertFinder />} />
       </Routes>
     </Router>
   )
