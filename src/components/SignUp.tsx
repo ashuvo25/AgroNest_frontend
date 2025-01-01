@@ -751,4 +751,6 @@ const SignUp: React.FC = () => {
     );
   };
   
+// <<<<<<< HEAD
   export default SignUp;
+// =======
