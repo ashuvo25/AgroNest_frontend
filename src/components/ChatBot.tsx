@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { marked } from 'marked';
 import hljs from 'highlight.js';
+import { useNavigate } from 'react-router-dom';
 
 interface Message {
   sender: 'user' | 'ai';
@@ -120,6 +121,7 @@ const TokenManager = {
 };
 
 const ChatBot: React.FC = () => {
+  const navigate = useNavigate();
   // Add back isLoading state
   const [messages, setMessages] = useState<Message[]>([]);
   const [chatHistory, setChatHistory] = useState<Chat[]>([]);
@@ -671,78 +673,93 @@ const ChatBot: React.FC = () => {
     </div>
   );
 
+  const handleBack = () => {
+    navigate(-1); // Go back to previous page
+  };
+
   // Update the return statement to use SignInForm component
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-green-50">
-      {/* Side Menu - Update colors and styling */}
+      {/* Updated Side Menu with matching gradient */}
       <nav 
         className={`
           fixed inset-y-0 left-0
           w-full sm:w-[300px] md:w-[320px] lg:w-[380px]
-          bg-gradient-to-br from-blue-700 via-blue-300 to-blue-800
+          bg-gradient-to-r from-emerald-600 to-emerald-700
           transform transition-transform duration-300 ease-in-out z-50
           flex flex-col
           ${showSideMenu ? 'translate-x-0' : '-translate-x-full'}
         `}
       >
-        {/* Header part - Update border color */}
-        <div className="p-4 border-b border-green-500/20">
+        {/* Updated Header part with matching border */}
+        <div className="p-4 border-b border-emerald-500/20">
           <div className="flex items-center justify-between">
-            <h2 className="text-white/90 text-xl font-bold">Chat History</h2>
+            <h2 className="text-white text-xl font-bold">Chat History</h2>
             <button 
               onClick={() => setShowSideMenu(false)}
-              className="text-white/70 hover:text-white transition-colors"
+              className="text-white/80 hover:text-white transition-colors hover:bg-white/10 p-2 rounded-lg"
             >
-              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
               </svg>
             </button>
           </div>
         </div>
-        {/* Scrollable content - Update background */}
-        <div className="flex-1 overflow-y-auto p-4 bg-gradient-to-b from-green-600/10 to-green-700/10 backdrop-blur-sm">
+        {/* Updated Scrollable content with matching background */}
+        <div className="flex-1 overflow-y-auto p-4 bg-gradient-to-b from-emerald-600/10 to-emerald-700/10">
           {renderChatHistory()}
         </div>
       </nav>
 
       {/* Main Content - Add responsive padding and width */}
       <div className="flex-1 relative">
-        {/* Header - Make responsive */}
-        <header className="fixed top-0 w-full py-2 px-3 sm:px-4 bg-green-50/90 backdrop-blur-md shadow-sm z-40 border-b border-green-100">
+        {/* Updated Header with new color and button positioning */}
+        <header className="fixed top-0 w-full py-3.5 px-3 sm:px-4 bg-gradient-to-r from-emerald-600 to-emerald-700 backdrop-blur-md shadow-sm z-40 border-b border-emerald-800">
           <div className="flex items-center justify-between max-w-7xl mx-auto">
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-3">
               <button
-                onClick={() => setShowSideMenu(true)}
-                className="p-1 hover:bg-green-100 rounded-md transition-colors"
-                title="Show chat history"
+                onClick={handleBack}
+                className="p-2 hover:bg-white/10 rounded-md transition-colors text-white"
+                title="Go back"
               >
-                <svg className="w-4 h-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
                 </svg>
               </button>
-              <h1 className="text-sm sm:text-base font-medium flex items-center gap-1.5 text-gray-700">
-                <svg className="w-4 h-4 sm:w-5 sm:h-5 text-green-600" fill="currentColor" viewBox="0 0 24 24">
+              <h1 className="text-sm sm:text-base font-medium flex items-center gap-1.5 text-white">
+                <svg className="w-4 h-4 sm:w-5 sm:h-5 text-white" fill="currentColor" viewBox="0 0 24 24">
                   <path d="M7.5,3C5,3,3,5,3,7.5S5,12,7.5,12S12,10,12,7.5S10,3,7.5,3z" />
                 </svg>
                 <span>কৃষকের সহায়ক</span>
               </h1>
             </div>
             
-            <button 
-              onClick={handleNewChat}
-              className="bg-green-600/90 hover:bg-green-700 text-white px-2 sm:px-2.5 py-1 text-xs sm:text-sm rounded
-                transition-colors flex items-center gap-1 sm:gap-1.5 font-medium"
-            >
-              <svg className="w-3 h-3 sm:w-3.5 sm:h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
-              </svg>
-              <span className="hidden xs:inline">নতুন চ্যাট</span>
-            </button>
+            <div className="flex items-center gap-2">
+              <button
+                onClick={() => setShowSideMenu(true)}
+                className="p-2 hover:bg-white/10 rounded-md transition-colors text-white"
+                title="Show chat history"
+              >
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+                </svg>
+              </button>
+              <button 
+                onClick={handleNewChat}
+                className="bg-green-600/90 hover:bg-green-700 text-white px-2 sm:px-2.5 py-1 text-xs sm:text-sm rounded
+                  transition-colors flex items-center gap-1 sm:gap-1.5 font-medium"
+              >
+                <svg className="w-3 h-3 sm:w-3.5 sm:h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+                </svg>
+                <span className="hidden xs:inline">নতুন চ্যাট</span>
+              </button>
+            </div>
           </div>
         </header>
 
         {/* Messages Container - Responsive padding and width */}
-        <div ref={responseRef} className="pt-12 pb-24 px-2 sm:px-4 md:px-6 h-screen overflow-y-auto">
+        <div ref={responseRef} className="pt-16 pb-24 px-2 sm:px-4 md:px-6 h-screen overflow-y-auto">
           <div className="max-w-2xl sm:max-w-3xl lg:max-w-4xl mx-auto space-y-4 sm:space-y-6">
             {messages.map((message, index) => (
               <div 

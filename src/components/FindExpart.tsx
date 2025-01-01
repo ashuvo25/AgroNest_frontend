@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Search, Filter, Star, MessageCircle, Phone, Calendar, ChevronRight, MapPin, ArrowLeft } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 const DEFAULT_AVATAR = 'https://xsgames.co/randomusers/assets/avatars/placeholder.jpg';
 
@@ -181,6 +182,11 @@ interface ExpertCardProps {
 
 const ExpertCard = ({ name, specialty, expertise, rating, reviews, experience, available, image }: ExpertCardProps) => {
   const [imgError, setImgError] = useState(false);
+  const navigate = useNavigate();
+
+  const handleExpertClick = () => {
+    navigate('/expartprof'); // Assuming '/expert-details' is the route for exparts.tsx
+  };
 
   return (
     <div className="bg-white rounded-2xl shadow-sm border border-emerald-100 hover:shadow-md transition-all duration-200 overflow-hidden h-[200px]">
@@ -260,7 +266,10 @@ const ExpertCard = ({ name, specialty, expertise, rating, reviews, experience, a
                 {/* <span className="text-xs text-emerald-900">কল</span> */}
               </span>
               </button>
-              <button className="p-2 rounded-full bg-emerald-600 hover:bg-emerald-700 transition-all text-white hover:shadow-lg hover:shadow-emerald-100 group">
+              <button 
+                onClick={handleExpertClick}
+                className="p-2 rounded-full bg-emerald-600 hover:bg-emerald-700 transition-all text-white hover:shadow-lg hover:shadow-emerald-100 group hover:scale-105"
+              >
                 <ChevronRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
               </button>
             </div>

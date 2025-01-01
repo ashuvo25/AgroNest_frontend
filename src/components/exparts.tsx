@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import { ChevronLeft, ChevronRight, Heart } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 const AgricultureExpertBooking = () => {
+  const navigate = useNavigate();
   const [selectedDate, setSelectedDate] = useState(24);
   const [selectedTime, setSelectedTime] = useState('8:00');
 
@@ -21,7 +23,9 @@ const AgricultureExpertBooking = () => {
   ];
 
   const times = ['7:30', '8:00', '8:30', '9:00'];
-
+  const handleExpertClick = () => {
+    navigate('/exparts'); // Assuming '/expert-details' is the route for exparts.tsx
+  };
   return (
     <div className="relative pb-24 bg-gradient-to-b from-emerald-50 to-white min-h-screen">
       <div className="max-w-md mx-auto p-6">
@@ -41,8 +45,10 @@ const AgricultureExpertBooking = () => {
             
             {/* Header buttons */}
             <div className="absolute top-4 left-4 right-4 flex justify-between items-center z-10">
-              <button className="p-3 rounded-full bg-white shadow-md hover:shadow-lg transition-all border border-emerald-100">
-                <ChevronLeft className="w-5 h-5 text-emerald-700" />
+              <button 
+              onClick={handleExpertClick}
+              className="p-3 rounded-full bg-white shadow-md hover:shadow-lg transition-all border border-emerald-100 hover:scale-105">
+                <ChevronLeft className="w-5 h-5 text-emerald-700 group-hover:-translate-x-0.5 transition-transform" />
               </button>
               <button className="p-3 rounded-full bg-white shadow-md hover:shadow-lg transition-all border border-emerald-100">
                 <Heart className="w-5 h-5 text-rose-600" />
