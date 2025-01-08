@@ -172,18 +172,19 @@ const ChatBot: React.FC = () => {
     init();
   }, []);
 
-  // Modify the disease detection effect to avoid double submission
+  // Modify the disease detection effect to only set the prompt
   useEffect(() => {
-    const handleDetectedDisease = async () => {
-      if (detectedDisease && messages.length === 0) { // Only submit if no messages exist
-        const diseasePrompt = `I need to know more about ${detectedDisease} disease in crops. Please provide detailed information about its symptoms, causes, and treatment methods.`;
-        await submitMessage(diseasePrompt);
-        setDetectedDisease(null);
+    if (detectedDisease && !isLoading) {
+      const diseasePrompt = `আমি ${detectedDisease} রোগ সম্পর্কে বিস্তারিত জানতে চাই। অনুগ্রহ করে এর লক্ষণ, কারণ এবং প্রতিকার সম্পর্কে বিস্তারিত তথ্য দিন।`;
+      setPrompt(diseasePrompt);
+      setDetectedDisease(null);
+      
+      // Focus the textarea
+      if (textareaRef.current) {
+        textareaRef.current.focus();
       }
-    };
-
-    handleDetectedDisease();
-  }, [detectedDisease, messages.length]);
+    }
+  }, [detectedDisease]);
 
   // Add this effect to load chat history on component mount
   useEffect(() => {
@@ -249,7 +250,7 @@ const ChatBot: React.FC = () => {
         headers,
       });
 
-      if (response.status === 401 || response.status === 403) {
+      if (response.status === 401 || response.status ===  403) {
         TokenManager.clear();
         setShowSignIn(true);
         throw new Error('Authentication failed. Please sign in again.');
@@ -857,7 +858,7 @@ const submitMessage = async (messageText: string) => {
               placeholder="কৃষি সম্পর্কিত প্রশ্ন করুন..."
               className="flex-1 p-2 sm:p-3 text-sm sm:text-base rounded-lg border border-gray-300
                 focus:ring-2 focus:ring-green-500 focus:border-green-500
-                resize-none h-[40px] sm:h-[50px] min-h-[40px] sm:min-h-[50px] max-h-[40px] sm:max-h-[50px] bg-gray-50"
+                resize-none h-[80px] sm:h-[100px] min-h-[80px] sm:min-h-[100px] max-h-[150px] sm:max-h-[200px] bg-gray-50"
               onKeyDown={handleKeyPress}
               disabled={isLoading}
               autoComplete="off"
