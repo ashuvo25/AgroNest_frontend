@@ -2,6 +2,7 @@ import React, { useEffect, useState, useRef } from 'react';
 import { marked } from 'marked';
 import hljs from 'highlight.js';
 import { useNavigate } from 'react-router-dom';
+import { useDisease } from '../context/DiseaseContext';
 
 interface Message {
   sender: 'user' | 'ai';
@@ -26,6 +27,21 @@ interface TypingState {
   text: string;
 }
 
+// Add this new component right after the interface declarations
+const TypingIndicator: React.FC<{ text: string }> = ({ text }) => (
+  <div className="flex justify-start">
+    <div className="bg-green-200 text-gray-800 border border-green-100 rounded-2xl p-4 max-w-[80%] animate-fadeIn">
+      {text || (
+        <div className="flex items-center gap-2">
+          <div className="w-2 h-2 bg-gray-600 rounded-full animate-bounce" style={{ animationDelay: '0s' }} />
+          <div className="w-2 h-2 bg-gray-600 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }} />
+          <div className="w-2 h-2 bg-gray-600 rounded-full animate-bounce" style={{ animationDelay: '0.4s' }} />
+        </div>
+      )}
+    </div>
+  </div>
+);
+
 // Update the API_CONFIG
 const API_CONFIG = {
   BASE_URL: `${window.location.protocol}//${window.location.hostname}:5000`,
@@ -49,7 +65,7 @@ const API_CONFIG = {
 
 // Update TOKEN_CONFIG with the provided token
 const TOKEN_CONFIG = {
-  MANUAL_TOKEN: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiZXhwIjoxNzM1MTU5NjcxfQ.sFgu0RVAgYDMaFG9yWvwcGQsp_hwuWfiV1BjxnyNtJs',
+  MANUAL_TOKEN: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiZXhwIjoxNzM2MzcyMTMwfQ.ELXv2ubt6Grx-aEslFONYoOw2s0aVIdLhzHbQEoAkgE',
   LOCAL_TOKEN_URL: 'http://localhost:8000/token',
 };
 
@@ -135,6 +151,7 @@ const ChatBot: React.FC = () => {
   
   const responseRef = useRef<HTMLDivElement>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
+  const { detectedDisease, setDetectedDisease } = useDisease();
 
   // Update initialization useEffect
   useEffect(() => {
@@ -154,6 +171,19 @@ const ChatBot: React.FC = () => {
 
     init();
   }, []);
+
+  // Modify the disease detection effect to avoid double submission
+  useEffect(() => {
+    const handleDetectedDisease = async () => {
+      if (detectedDisease && messages.length === 0) { // Only submit if no messages exist
+        const diseasePrompt = `I need to know more about ${detectedDisease} disease in crops. Please provide detailed information about its symptoms, causes, and treatment methods.`;
+        await submitMessage(diseasePrompt);
+        setDetectedDisease(null);
+      }
+    };
+
+    handleDetectedDisease();
+  }, [detectedDisease, messages.length]);
 
   // Add this effect to load chat history on component mount
   useEffect(() => {
@@ -247,38 +277,44 @@ const ChatBot: React.FC = () => {
     }
   };
 
-  const submitMessage = async (messageText: string) => {
-    if (!messageText.trim()) return;
+  // Replace the submitMessage function
+const submitMessage = async (messageText: string) => {
+  if (!messageText.trim()) return;
 
-    if (!TokenManager.isValid()) {
-      setShowSignIn(true);
-      return;
+  if (!TokenManager.isValid()) {
+    setShowSignIn(true);
+    return;
+  }
+
+  try {
+    const userMessage: Message = { sender: 'user', content: messageText };
+    setMessages(prev => [...prev, userMessage]);
+    setTyping({ isTyping: true, text: '' }); // Start typing indicator
+
+    const response = await fetchWithAuth(API_CONFIG.ENDPOINTS.generate, {
+      method: 'POST',
+      body: JSON.stringify({ prompt: messageText, chat_id: currentChatId })
+    });
+
+    const data = await response.json();
+    if (response.ok) {
+      // Simulate typing effect for the response
+      await simulateTyping(data.response);
+      
+      const aiMessage: Message = { sender: 'ai', content: data.response };
+      setMessages(prev => [...prev, aiMessage]);
+      setCurrentChatId(data.chat_id);
+      fetchChatHistory();
     }
-
-    try {
-      const userMessage: Message = { sender: 'user', content: messageText };
-      setMessages(prev => [...prev, userMessage]);
-
-      const response = await fetchWithAuth(API_CONFIG.ENDPOINTS.generate, {
-        method: 'POST',
-        body: JSON.stringify({ prompt: messageText, chat_id: currentChatId })
-      });
-
-      const data = await response.json();
-      if (response.ok) {
-        await simulateTyping(data.response);
-        const aiMessage: Message = { sender: 'ai', content: data.response };
-        setMessages(prev => [...prev, aiMessage]);
-        setCurrentChatId(data.chat_id);
-        fetchChatHistory();
-      }
-    } catch (error) {
-      console.error('Error:', error);
-      if (!TokenManager.isExpired(error)) {
-        showErrorMessage('Failed to send message');
-      }
+  } catch (error) {
+    console.error('Error:', error);
+    if (!TokenManager.isExpired(error)) {
+      showErrorMessage('Failed to send message');
     }
-  };
+  } finally {
+    setTyping({ isTyping: false, text: '' }); // Clear typing state
+  }
+};
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -554,15 +590,42 @@ const ChatBot: React.FC = () => {
 
   // Add this typing effect function
   const simulateTyping = async (text: string) => {
+    const TYPING_SPEED = 25; // Milliseconds per character
+    const MIN_TYPING_TIME = 500; // Minimum typing time in milliseconds
+    const MAX_TYPING_TIME = 3000; // Maximum typing time in milliseconds
+
+    // Calculate ideal typing time based on text length
+    const idealTypingTime = Math.min(
+      MAX_TYPING_TIME,
+      Math.max(MIN_TYPING_TIME, text.length * TYPING_SPEED)
+    );
+
+    // Show initial typing indicator
     setTyping({ isTyping: true, text: '' });
+
+    // Wait for a small initial delay
+    await new Promise(resolve => setTimeout(resolve, 500));
+
+    const startTime = Date.now();
     let currentText = '';
-    
-    for (let i = 0; i < text.length; i++) {
-      currentText += text[i];
+
+    // Generate intermediate states
+    const steps = 10; // Number of intermediate steps
+    const stepDuration = idealTypingTime / steps;
+
+    for (let i = 1; i <= steps; i++) {
+      const progress = i / steps;
+      const visibleLength = Math.floor(text.length * progress);
+      currentText = text.slice(0, visibleLength);
       setTyping({ isTyping: true, text: currentText });
-      await new Promise(resolve => setTimeout(resolve, 20)); // Adjust speed here
+      await new Promise(resolve => setTimeout(resolve, stepDuration));
     }
+
+    // Ensure we show the complete text
+    setTyping({ isTyping: true, text: text });
+    await new Promise(resolve => setTimeout(resolve, 100));
     
+    // Clear typing state
     setTyping({ isTyping: false, text: '' });
   };
 
@@ -780,7 +843,7 @@ const ChatBot: React.FC = () => {
                 />
               </div>
             ))}
-            {/* ...typing indicator... */}
+            {typing.isTyping && <TypingIndicator text={typing.text} />}
           </div>
         </div>
 
@@ -842,7 +905,7 @@ const ChatBot: React.FC = () => {
               </button>
             </div>
 
-            {isTokenMode ? (
+            {/* {isTokenMode ? (
               <form onSubmit={handleTokenSubmit} className="space-y-4">
                 <div>
                   <label htmlFor="token" className="block text-sm font-medium text-gray-700">
@@ -868,7 +931,7 @@ const ChatBot: React.FC = () => {
               </form>
             ) : (
               <SignInForm onSubmit={handleSignIn} />
-            )}
+            )} */}
           </div>
         </div>
       )}
