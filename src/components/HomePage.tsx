@@ -137,6 +137,9 @@ const HomePage: React.FC = () => {
               {/* <FiUser className="h-5 w-5" /> */}
               👤প্রোফাইল
             </button>
+            <button onClick={() => handleNavigation('/ai_ml')} className="text-gray-600 font-medium hover:text-green-700 flex items-center gap-2">
+              🤖এআই/এমএল
+            </button>
           </div>
 
           {/* Header Icons */}
@@ -279,6 +282,10 @@ const HomePage: React.FC = () => {
           <span className="text-2xl">🏪</span>
           <span className="text-[10px] mt-0.5">মার্কেট</span>
         </button>
+        <button onClick={() => handleNavigation('/ai_ml')} className="text-gray-600 flex flex-col items-center">
+          <span className="text-2xl">🤖</span>
+          <span className="text-[10px] mt-0.5">AI/ML</span>
+        </button>
         <button onClick={() => handleNavigation('/rent')} className="text-gray-600 flex flex-col items-center">
           <span className="text-2xl">🚜</span>
           <span className="text-[10px] mt-0.5">ভাড়া করুন</span>
@@ -287,6 +294,7 @@ const HomePage: React.FC = () => {
           <span className="text-2xl">👤</span>
           <span className="text-[10px] mt-0.5">প্রোফাইল</span>
         </button>
+       
       </div>
     </div>
   );
