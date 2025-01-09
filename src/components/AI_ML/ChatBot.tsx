@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef } from 'react';
 import { marked } from 'marked';
 import hljs from 'highlight.js';
 import { useNavigate } from 'react-router-dom';
-import { useDisease } from '../context/DiseaseContext';
+import { useDisease } from '../../context/DiseaseContext';
 
 interface Message {
   sender: 'user' | 'ai';
@@ -65,7 +65,7 @@ const API_CONFIG = {
 
 // Update TOKEN_CONFIG with the provided token
 const TOKEN_CONFIG = {
-  MANUAL_TOKEN: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiZXhwIjoxNzM2MzcyMTMwfQ.ELXv2ubt6Grx-aEslFONYoOw2s0aVIdLhzHbQEoAkgE',
+  MANUAL_TOKEN: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiZXhwIjoxNzM2NDMyMDk1fQ.zmnkQZ4jpG5-Z8DPCFeLYqKNUSHh9Vu_rsl7Btig5Fw',
   LOCAL_TOKEN_URL: 'http://localhost:8000/token',
 };
 
@@ -738,7 +738,7 @@ const submitMessage = async (messageText: string) => {
   );
 
   const handleBack = () => {
-    navigate(-1); // Go back to previous page
+    navigate("/ai_ml"); // Go back to previous page
   };
 
   // Update the return statement to use SignInForm component

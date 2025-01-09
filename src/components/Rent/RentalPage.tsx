@@ -152,40 +152,6 @@ const RentalPage: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-green-50">
-      {/* Header */}
-      <div className="bg-white shadow-sm">
-        <div className="max-w-7xl mx-auto px-4 py-4">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-4">
-              <button 
-                onClick={() => handleNavigation('/home_page')}
-                className="p-2 hover:bg-gray-100 rounded-lg"
-              >
-                <ArrowLeft className="h-5 w-5" />
-              </button>
-              <div>
-                <h1 className="text-2xl font-bold">কৃষি যন্ত্রপাতি ভাড়া</h1>
-                <p className="text-sm text-gray-600">সহজ শর্তে যন্ত্রপাতি ভাড়া নিন</p>
-              </div>
-            </div>
-            <div className="flex gap-2">
-              <button 
-                onClick={() => setViewMode('grid')}
-                className={`p-2 rounded ${viewMode === 'grid' ? 'bg-green-100' : 'hover:bg-gray-100'}`}
-              >
-                <Grid className="h-5 w-5" />
-              </button>
-              <button 
-                onClick={() => setViewMode('list')}
-                className={`p-2 rounded ${viewMode === 'list' ? 'bg-green-100' : 'hover:bg-gray-100'}`}
-              >
-                <List className="h-5 w-5" />
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-
       {/* Search and Filters */}
       <div className="max-w-7xl mx-auto px-4 py-4">
         <div className="bg-white rounded-lg p-4 shadow-sm">
@@ -348,6 +314,29 @@ const RentalPage: React.FC = () => {
               </div>
           ))}
         </div>
+        <div className="md:hidden fixed bottom-0 left-0 right-0 bg-white shadow-lg border-t border-gray-100 px-2 py-1.5 flex justify-around">
+        <button onClick={() => handleNavigation('/home_page')} className="text-green-700 flex flex-col items-center">
+          <span className="text-2xl">🏠</span>
+          <span className="text-[10px] mt-0.5">হোম</span>
+        </button>
+        <button onClick={() => handleNavigation('/marketplace')} className="text-gray-600 flex flex-col items-center">
+          <span className="text-2xl">🏪</span>
+          <span className="text-[10px] mt-0.5">মার্কেট</span>
+        </button>
+        <button onClick={() => handleNavigation('/ai_ml')} className="text-gray-600 flex flex-col items-center">
+          <span className="text-2xl">🤖</span>
+          <span className="text-[10px] mt-0.5">AI/ML</span>
+        </button>
+        <button onClick={() => handleNavigation('/rent')} className="text-gray-600 flex flex-col items-center">
+          <span className="text-2xl">🚜</span>
+          <span className="text-[10px] mt-0.5">ভাড়া করুন</span>
+        </button>
+        <button onClick={() => handleNavigation('/profile')} className="text-gray-600 flex flex-col items-center">
+          <span className="text-2xl">👤</span>
+          <span className="text-[10px] mt-0.5">প্রোফাইল</span>
+        </button>
+       
+      </div>
       </div>
     </div>
   );

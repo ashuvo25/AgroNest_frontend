@@ -1,6 +1,6 @@
 import React, { useState, FormEvent, ChangeEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useDisease } from '../context/DiseaseContext';
+import { useDisease } from '../../context/DiseaseContext';
 
 const API_CONFIG = {
   BASE_URL: `${window.location.protocol}//${window.location.hostname}:5000`,

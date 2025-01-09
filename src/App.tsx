@@ -3,22 +3,26 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import SignIn from './components/SignIn'
 import SignUp from './components/SignUp'
 // import AgricultureApp from '../public/AgricultureApp'
-import HomePage from './components/HomePage'  
+import HomePage from './components/Home_pages/HomePage'  
 import BlogApp from './components/BlogApp'
-import LearningPage from './components/LearningPage'
-import InformationDesk from './components/InfoDesk'
+import LearningPage from './components/Exparts_Learning/LearningPage'
+import InformationDesk from './components/Info_event/InfoDesk'
 import Cart from './components/AddToCart'
 import ProfilePage from './components/ProfilePage';
-import EventsPage from './components/EventPage'
-import Marketplace from './components/Marketplace'
-import RentalPage from './components/RentalPage'
-import RentalDetailsPage from './components/RentalDetailsPage'
-import ChatBot from './components/ChatBot'
-import AgricultureExpertBooking from './components/exparts'
-import ExpertFinder from './components/FindExpart'
-import AiMl from './components/ai_ml'
-import Detect from './components/ImageDetect'
+import EventsPage from './components/Info_event/EventPage'
+import Marketplace from './components/MarketPlace/Marketplace'
+import RentalPage from './components/Rent/RentalPage'
+import RentalDetailsPage from './components/Rent/RentalDetailsPage'
+import ChatBot from './components/AI_ML/ChatBot'
+import AgricultureExpertBooking from './components/Exparts_Learning/exparts'
+import ExpertFinder from './components/Exparts_Learning/FindExpart'
+import AiMl from './components/AI_ML/ai_ml'
+import Detect from './components/AI_ML/ImageDetect'
 import { DiseaseProvider } from './context/DiseaseContext';
+import DealerHome from './components/Home_pages/DealerHome'
+import FarmerHome from './components/Home_pages/FarmerHome'
+import ExpertHome from './components/Home_pages/ExpertHome'
+import VendorHome from './components/Home_pages/VendorHome'
 
 
 
@@ -45,6 +49,10 @@ const App = () => {
           <Route path="/exparts" element={<ExpertFinder />} />
           <Route path="/ai_ml" element={<AiMl />} />
           <Route path="/image_detc" element={<Detect/>} />
+          <Route path="/delar" element={<DealerHome/>} />
+          <Route path="/farmer" element={<FarmerHome/>} />
+          <Route path="/expart" element={<ExpertHome/>} />
+          <Route path="/vendor" element={<VendorHome/>} />
         </Routes>
       </Router>
     </DiseaseProvider>
