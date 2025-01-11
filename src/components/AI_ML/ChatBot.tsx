@@ -63,95 +63,95 @@ const API_CONFIG = {
   }
 };
 
-// Update TOKEN_CONFIG with the provided token
-const TOKEN_CONFIG = {
-  MANUAL_TOKEN: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiZXhwIjoxNzM2NDMyMDk1fQ.zmnkQZ4jpG5-Z8DPCFeLYqKNUSHh9Vu_rsl7Btig5Fw',
-  LOCAL_TOKEN_URL: 'http://localhost:8000/token',
+// Replace random ID generation with fixed ID
+const USER_CONFIG = {
+  USER_ID: '765d8bee-965d-44d7-8606-16f020de6c0e', // Replace with your provided ID
 };
 
-// Update TokenManager to include better token validation
-const TokenManager = {
-  get: () => localStorage.getItem('auth_token'),
-  set: (token: string) => localStorage.setItem('auth_token', token),
-  clear: () => localStorage.removeItem('auth_token'),
+// Replace TokenManager with UserManager
+const UserManager = {
+  getId: () => USER_CONFIG.USER_ID,
+  
+  // Simple validation that ID exists
   isValid: () => {
-    const token = localStorage.getItem('auth_token');
-    return token !== null && token !== 'undefined' && token.length > 0;
+    return !!USER_CONFIG.USER_ID;
   },
-  // Add method to get token with bearer prefix
-  getBearer: () => {
-    const token = localStorage.getItem('auth_token');
-    return token ? `Bearer ${token}` : '';
-  },
-  // Add expiration check
-  isExpired: (error: any) => {
-    return error?.response?.status === 401 || 
-           error?.message?.toLowerCase().includes('unauthorized') ||
-           error?.message?.toLowerCase().includes('expired');
-  },
-  // Add method to get token from local network
-  getFromLocalNetwork: async () => {
-    try {
-      const response = await fetch(TOKEN_CONFIG.LOCAL_TOKEN_URL);
-      if (response.ok) {
-        const data = await response.json();
-        return data.token;
-      }
-    } catch (error) {
-      console.warn('Failed to get token from local network');
-    }
-    return null;
-  },
-
-  // Modify TokenManager initialize method to prioritize the manual token
-  initialize: async () => {
-    // 1. Always use manual token first if available
-    if (TOKEN_CONFIG.MANUAL_TOKEN) {
-      TokenManager.set(TOKEN_CONFIG.MANUAL_TOKEN);
-      return true;
-    }
-
-    // 2. Try URL parameter
-    const urlParams = new URLSearchParams(window.location.search);
-    const urlToken = urlParams.get('token');
-    if (urlToken) {
-      TokenManager.set(urlToken);
-      window.history.replaceState({}, document.title, window.location.pathname);
-      return true;
-    }
-
-    // 3. Try localStorage
-    if (TokenManager.isValid()) {
-      return true;
-    }
-
-    // 4. Try local network
-    const networkToken = await TokenManager.getFromLocalNetwork();
-    if (networkToken) {
-      TokenManager.set(networkToken);
-      return true;
-    }
-
-    return false;
-  }
 };
 
+// Create a type for loading state setter
+type SetLoadingType = React.Dispatch<React.SetStateAction<boolean>>;
+
+// Move fetchWithAuth inside the component to access setIsLoading
 const ChatBot: React.FC = () => {
   const navigate = useNavigate();
-  // Add back isLoading state
   const [messages, setMessages] = useState<Message[]>([]);
   const [chatHistory, setChatHistory] = useState<Chat[]>([]);
   const [currentChatId, setCurrentChatId] = useState<number | null>(null);
   const [prompt, setPrompt] = useState('');
-  const [showSignIn, setShowSignIn] = useState(false);
   const [showSideMenu, setShowSideMenu] = useState(false);
   const [typing, setTyping] = useState<TypingState>({ isTyping: false, text: '' });
   const [isLoading, setIsLoading] = useState(false); // Add this back
-  const [isTokenMode, setIsTokenMode] = useState(false); // Add new state for token input mode
   
   const responseRef = useRef<HTMLDivElement>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const { detectedDisease, setDetectedDisease } = useDisease();
+
+  // Move fetchWithAuth inside component
+  const fetchWithAuth = async (endpoint: string, options: RequestInit = {}) => {
+    const shouldShowLoading = !endpoint.includes('get_chats');
+    if (shouldShowLoading) {
+      setIsLoading(true);
+    }
+
+    try {
+      const url = endpoint.startsWith('http') ? endpoint : `${API_CONFIG.BASE_URL}${endpoint}`;
+      const isGetRequest = !options.method || options.method === 'GET';
+      const isDeleteRequest = options.method === 'DELETE';
+      
+      // Add user_id as query parameter for GET and DELETE requests
+      const finalUrl = (isGetRequest || isDeleteRequest)
+        ? `${url}${url.includes('?') ? '&' : '?'}user_id=${UserManager.getId()}`
+        : url;
+
+      // Add user_id to body only for POST/PUT requests
+      let finalOptions = { ...options };
+      if (!isGetRequest && !isDeleteRequest && options.body) {
+        const bodyData = options.body ? JSON.parse(options.body as string) : {};
+        finalOptions.body = JSON.stringify({
+          ...bodyData,
+          user_id: UserManager.getId()
+        });
+      }
+
+      finalOptions.headers = {
+        ...API_CONFIG.CORS_CONFIG.headers,
+        ...options.headers
+      };
+
+      console.log('Request URL:', finalUrl);
+      console.log('Request Options:', finalOptions);
+
+      const response = await fetch(finalUrl, finalOptions);
+      const data = await response.json();
+
+      if (!response.ok) {
+        console.error('Server Error:', data);
+        throw new Error(data.error || `Server error: ${response.status}`);
+      }
+
+      return {
+        ok: response.ok,
+        json: () => Promise.resolve(data)
+      };
+    } catch (error) {
+      console.error('Fetch error:', error);
+      throw error;
+    } finally {
+      if (shouldShowLoading) {
+        setIsLoading(false);
+      }
+    }
+  };
 
   // Update initialization useEffect
   useEffect(() => {
@@ -161,11 +161,9 @@ const ChatBot: React.FC = () => {
         breaks: true
       });
 
-      const hasToken = await TokenManager.initialize();
+      const hasToken = UserManager.isValid();
       if (hasToken) {
         fetchChatHistory();
-      } else {
-        setShowSignIn(true);
       }
     };
 
@@ -220,100 +218,36 @@ const ChatBot: React.FC = () => {
     return () => clearInterval(interval);
   }, [isLoading, prompt, typing.isTyping]);
 
-  // Update the fetchWithAuth function to handle URLs properly
-  const fetchWithAuth = async (endpoint: string, options: RequestInit = {}) => {
-    const shouldShowLoading = !endpoint.includes('get_chats'); // Don't show loading for chat history
-    if (shouldShowLoading) {
-      setIsLoading(true);
-    }
-
-    if (!TokenManager.isValid()) {
-      setShowSignIn(true);
-      throw new Error('No valid token found');
-    }
-
-    try {
-      const url = endpoint.startsWith('http') ? endpoint : `${API_CONFIG.BASE_URL}${endpoint}`;
-      console.log('Fetching URL:', url);
-
-      const headers = {
-        ...API_CONFIG.CORS_CONFIG.headers,
-        'Authorization': TokenManager.getBearer(),
-        ...options.headers
-      };
-
-      console.log('Headers:', headers);
-      
-      const response = await fetch(url, {
-        ...options,
-        ...API_CONFIG.CORS_CONFIG,
-        headers,
-      });
-
-      if (response.status === 401 || response.status ===  403) {
-        TokenManager.clear();
-        setShowSignIn(true);
-        throw new Error('Authentication failed. Please sign in again.');
-      }
-
-      if (!response.ok) {
-        const errorData = await response.json().catch(() => ({}));
-        throw new Error(errorData.message || `HTTP error! status: ${response.status}`);
-      }
-
-      return response;
-    } catch (error) {
-      console.error('Fetch error details:', error); // Add debugging
-      if (error instanceof Error) {
-        if (error.message.includes('failed') || error.message.includes('401') || error.message.includes('403')) {
-          TokenManager.clear();
-          setShowSignIn(false);
-        }
-      }
-      throw error;
-    } finally {
-      if (shouldShowLoading) {
-        setIsLoading(false);
-      }
-    }
-  };
-
   // Replace the submitMessage function
 const submitMessage = async (messageText: string) => {
   if (!messageText.trim()) return;
 
-  if (!TokenManager.isValid()) {
-    setShowSignIn(true);
-    return;
-  }
-
   try {
     const userMessage: Message = { sender: 'user', content: messageText };
     setMessages(prev => [...prev, userMessage]);
-    setTyping({ isTyping: true, text: '' }); // Start typing indicator
+    setTyping({ isTyping: true, text: '' });
 
     const response = await fetchWithAuth(API_CONFIG.ENDPOINTS.generate, {
       method: 'POST',
-      body: JSON.stringify({ prompt: messageText, chat_id: currentChatId })
+      body: JSON.stringify({
+        prompt: messageText,
+        chat_id: currentChatId,
+        user_id: UserManager.getId()
+      })
     });
 
     const data = await response.json();
-    if (response.ok) {
-      // Simulate typing effect for the response
-      await simulateTyping(data.response);
-      
-      const aiMessage: Message = { sender: 'ai', content: data.response };
-      setMessages(prev => [...prev, aiMessage]);
-      setCurrentChatId(data.chat_id);
-      fetchChatHistory();
-    }
+    await simulateTyping(data.response);
+    
+    const aiMessage: Message = { sender: 'ai', content: data.response };
+    setMessages(prev => [...prev, aiMessage]);
+    setCurrentChatId(data.chat_id);
+    fetchChatHistory();
   } catch (error) {
-    console.error('Error:', error);
-    if (!TokenManager.isExpired(error)) {
-      showErrorMessage('Failed to send message');
-    }
+    console.error('Submit error:', error);
+    showErrorMessage(error instanceof Error ? error.message : 'Failed to send message');
   } finally {
-    setTyping({ isTyping: false, text: '' }); // Clear typing state
+    setTyping({ isTyping: false, text: '' });
   }
 };
 
@@ -329,75 +263,9 @@ const submitMessage = async (messageText: string) => {
     setIsLoading(false);
   };
 
-  const handleSignIn = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const formData = new FormData(e.currentTarget);
-    const email = formData.get('email') as string;
-    const password = formData.get('password') as string;
-
-    try {
-      const response = await fetch(`${API_CONFIG.BASE_URL}${API_CONFIG.ENDPOINTS.signin}`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, password })
-      });
-      
-      const data = await response.json();
-      if (response.ok) {
-        TokenManager.set(data.token);
-        setShowSignIn(false);
-        await fetchChatHistory();
-        // Retry last failed operation if any
-        if (prompt.trim()) {
-          handleSubmit(new Event('submit') as any);
-        }
-      } else {
-        throw new Error(data.error || 'Sign-in failed');
-      }
-    } catch (error) {
-      console.error('Sign-in error:', error);
-      showErrorMessage((error as Error).message);
-    }
-  };
-
-  // Add handleTokenSubmit function
-  const handleTokenSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const formData = new FormData(e.currentTarget);
-    const token = formData.get('token') as string;
-  
-    if (!token.trim()) {
-      showErrorMessage('Please enter a token');
-      return;
-    }
-  
-    try {
-      // Verify token with a test request
-      const testResponse = await fetch(`${API_CONFIG.BASE_URL}/verify_token`, {
-        headers: { 'Authorization': `Bearer ${token}` }
-      });
-  
-      if (testResponse.ok) {
-        TokenManager.set(token);
-        setShowSignIn(false);
-        await fetchChatHistory();
-        // Retry last failed operation if any
-        if (prompt.trim()) {
-          handleSubmit(new Event('submit') as any);
-        }
-      } else {
-        throw new Error('Invalid token');
-      }
-    } catch (error) {
-      console.error('Token verification error:', error);
-      showErrorMessage('Invalid token. Please try again.');
-    }
-  };
-
   // Update fetchChatHistory to include error handling and loading state
   const fetchChatHistory = async () => {
-    if (!TokenManager.isValid()) {
-      setShowSignIn(true);
+    if (!UserManager.isValid()) {
       return;
     }
     
@@ -549,43 +417,24 @@ const submitMessage = async (messageText: string) => {
     if (!window.confirm('Are you sure you want to delete this chat?')) return;
 
     try {
-      // Fix the URL construction here
       const response = await fetchWithAuth(API_CONFIG.ENDPOINTS.deleteChat(chatId), {
-        method: 'DELETE',
-        headers: {
-          'Authorization': `Bearer ${TokenManager.get()}`
-        }
+        method: 'DELETE'
       });
 
       if (response.ok) {
-        // Remove chat from state
         setChatHistory(prev => prev.filter(chat => chat.id !== chatId));
         
-        // Clear current chat if it was deleted
         if (currentChatId === chatId) {
           setMessages([]);
           setCurrentChatId(null);
           localStorage.removeItem('currentChatId');
         }
 
-        // Show success message in a more user-friendly way
-        const successMessage = document.createElement('div');
-        successMessage.className = 'fixed top-4 right-4 bg-green-500 text-white px-4 py-2 rounded shadow-lg';
-        successMessage.textContent = 'Chat deleted successfully';
-        document.body.appendChild(successMessage);
-        setTimeout(() => successMessage.remove(), 3000);
-      } else {
-        const data = await response.json();
-        throw new Error(data.error || 'Failed to delete chat');
+        showErrorMessage('Chat deleted successfully', 'success');
       }
     } catch (error) {
       console.error('Error deleting chat:', error);
-      // Show error message in a more user-friendly way
-      const errorMessage = document.createElement('div');
-      errorMessage.className = 'fixed top-4 right-4 bg-red-500 text-white px-4 py-2 rounded shadow-lg';
-      errorMessage.textContent = `Failed to delete chat: ${(error as Error).message}`;
-      document.body.appendChild(errorMessage);
-      setTimeout(() => errorMessage.remove(), 3000);
+      showErrorMessage(`Failed to delete chat: ${(error as Error).message}`);
     }
   };
 
@@ -631,12 +480,14 @@ const submitMessage = async (messageText: string) => {
   };
 
   // Add error message function
-  const showErrorMessage = (message: string) => {
-    const errorDiv = document.createElement('div');
-    errorDiv.className = 'fixed top-4 right-4 bg-red-500 text-white px-4 py-2 rounded shadow-lg z-50';
-    errorDiv.textContent = message;
-    document.body.appendChild(errorDiv);
-    setTimeout(() => errorDiv.remove(), 3000);
+  const showErrorMessage = (message: string, type: 'error' | 'success' = 'error') => {
+    const div = document.createElement('div');
+    div.className = `fixed top-4 right-4 px-4 py-2 rounded shadow-lg z-50 ${
+      type === 'success' ? 'bg-green-500' : 'bg-red-500'
+    } text-white`;
+    div.textContent = message;
+    document.body.appendChild(div);
+    setTimeout(() => div.remove(), 3000);
   };
 
   // Update chat history item render function
@@ -889,55 +740,6 @@ const submitMessage = async (messageText: string) => {
           </div>
         </div>
       </div>
-
-      {/* Sign-in Modal - Make responsive */}
-      {showSignIn && (
-        <div className="fixed inset-0 flex items-center justify-center p-4 bg-black/50 z-50">
-          <div className="bg-white w-full max-w-md rounded-lg shadow-xl mx-auto">
-            <div className="flex justify-between items-center mb-6">
-              <h2 className="text-xl font-bold">
-                {isTokenMode ? 'Enter Token' : 'সাইন ইন করুন'}
-              </h2>
-              <button
-                onClick={() => setIsTokenMode(!isTokenMode)}
-                className="text-sm text-green-600 hover:text-green-700 underline"
-              >
-                {isTokenMode ? 'Back to Sign In' : 'Use Token Instead'}
-              </button>
-            </div>
-
-            {/* {isTokenMode ? (
-              <form onSubmit={handleTokenSubmit} className="space-y-4">
-                <div>
-                  <label htmlFor="token" className="block text-sm font-medium text-gray-700">
-                    API Token
-                  </label>
-                  <input
-                    type="text"
-                    name="token"
-                    id="token"
-                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm
-                      focus:border-green-500 focus:ring-green-500"
-                    placeholder="Enter your API token"
-                    required
-                  />
-                </div>
-                <button
-                  type="submit"
-                  className="w-full bg-green-600 text-white py-2 px-4 rounded-md
-                    hover:bg-green-700 transition-colors"
-                >
-                  Verify Token
-                </button>
-              </form>
-            ) : (
-              <SignInForm onSubmit={handleSignIn} />
-            )} */}
-          </div>
-        </div>
-      )}
-
-  
     </div>
   );
 };
