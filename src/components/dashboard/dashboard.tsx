@@ -59,7 +59,7 @@ const Dashboard = () => {
         <div className="border-b border-green-100 bg-green-700 p-4">
           <div className="flex items-center gap-2">
             <Sprout className="h-6 w-6 text-white" />
-            <h1 className="text-xl font-bold text-white">অ্যাগ্রিফার্ম হাব</h1>
+            <h1 className="text-xl font-bold text-white">AgroNest</h1>
           </div>
         </div>
         
