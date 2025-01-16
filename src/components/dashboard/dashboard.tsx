@@ -40,6 +40,7 @@ const Dashboard = () => {
       type: "Consultant",
       status: "Active"
     }
+    
   ];
 
   const handleNavigation = (path: string) => {
@@ -119,9 +120,21 @@ const Dashboard = () => {
         </div>
       </div>
 
-      {/* Main Content - Add margin to offset fixed sidebar */}
+       {/* Main Content Area */}
       <div className="flex-1 ml-64">
-        <div className="p-6 h-screen overflow-y-auto">
+        {/* Top Menu Bar */}
+        <div className="fixed top-0 right-0 left-64 bg-green-700 h-16 shadow-md z-10">
+          <div className="flex items-center justify-between h-full px-6">
+            <h2 className="text-xl font-bold text-white">Admin Dashboard</h2>
+            <div className="flex items-center gap-4">
+              <span className="text-white font-bold">John Doe</span>
+              {/* Add more menu items here if needed */}
+            </div>
+          </div>
+        </div>
+
+        {/* Main Content - Adjusted to account for top bar */}
+        <div className="pt-16 p-6 h-screen overflow-y-auto">
           {/* Content wrapper */}
           <div className="max-w-full">
             <div className="mb-6">
@@ -143,75 +156,77 @@ const Dashboard = () => {
               </div>
             </div>
 
-            {/* Table with horizontal scroll */}
+            {/* Table with fixed header */}
             <div className="rounded-lg border border-green-100 bg-white shadow-sm overflow-hidden">
               <div className="overflow-x-auto">
-                <table className="w-full text-sm">
-                  <thead className="bg-green-50">
-                    <tr>
-                      <th className="px-4 py-3 text-left font-semibold text-green-900">Photo</th>
-                      <th className="px-4 py-3 text-left font-semibold text-green-900">নাম</th>
-                      <th className="px-4 py-3 text-left font-semibold text-green-900">ইমেইল</th>
-                      <th className="px-4 py-3 text-left font-semibold text-green-900">ভূমিকা</th>
-                      <th className="px-4 py-3 text-left font-semibold text-green-900">ঠিকানা</th>
-                      <th className="px-4 py-3 text-left font-semibold text-green-900">ধরণ</th>
-                      <th className="px-4 py-3 text-left font-semibold text-green-900">অবস্থা</th>
-                      <th className="px-4 py-3 text-right font-semibold text-green-900">ব্যবস্থাপনা</th>
-                    </tr>
-                  </thead>
-                  <tbody className="divide-y divide-green-100">
-                    {users
-                      .filter(user => 
-                        user.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                        user.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                        user.role.toLowerCase().includes(searchTerm.toLowerCase())
-                      )
-                      .map((user) => (
-                        <tr key={user.id} className="hover:bg-green-50">
-                          <td className="px-4 py-3">
-                            <img
-                              src={user.photo}
-                              alt={`${user.name}'s profile`}
-                              className="h-10 w-10 rounded-full object-cover"
-                            />
-                          </td>
-                          <td className="px-4 py-3 font-medium text-green-900">{user.name}</td>
-                          <td className="px-4 py-3 text-gray-600">{user.email}</td>
-                          <td className="px-4 py-3 text-gray-600">{user.role}</td>
-                          <td className="px-4 py-3 text-gray-600">{user.address}</td>
-                          <td className="px-4 py-3 text-gray-600">{user.type}</td>
-                          <td className="px-4 py-3">
-                            <span className={`inline-flex items-center rounded-full px-2 py-1 text-xs font-medium
-                              ${user.status === 'Active' ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'}`}>
-                              {user.status}
-                            </span>
-                          </td>
-                          <td className="px-4 py-3">
-                            <div className="flex justify-end gap-2">
-                              <button 
-                                className="inline-flex h-8 w-8 items-center justify-center rounded-md border border-green-200 hover:bg-green-50"
-                                title="বিস্তারিত দেখুন"
-                              >
-                                <Eye className="h-4 w-4 text-green-600" />
-                              </button>
-                              <button 
-                                className="inline-flex h-8 w-8 items-center justify-center rounded-md border border-green-200 hover:bg-green-50"
-                                title="ব্যবহারকারী ব্লক করুন"
-                              >
-                                <Ban className="h-4 w-4 text-yellow-600" />
-                              </button>
-                              <button 
-                                className="inline-flex h-8 w-8 items-center justify-center rounded-md border border-green-200 hover:bg-green-50"
-                                title="ব্যবহারকারী মুছে ফেলুন"
-                              >
-                                <UserX className="h-4 w-4 text-red-600" />
-                              </button>
-                            </div>
-                          </td>
-                        </tr>
-                      ))}
-                  </tbody>
-                </table>
+                <div className="max-h-[calc(100vh-280px)] overflow-y-auto">
+                  <table className="w-full text-sm">
+                    <thead className="bg-green-50 sticky top-0 z-10">
+                      <tr>
+                        <th className="px-4 py-3 text-left font-bold text-green-900">Photo</th>
+                        <th className="px-4 py-3 text-left font-bold text-green-900">নাম</th>
+                        <th className="px-4 py-3 text-left font-bold text-green-900">ইমেইল</th>
+                        <th className="px-4 py-3 text-left font-bold text-green-900">ভূমিকা</th>
+                        <th className="px-4 py-3 text-left font-bold text-green-900">ঠিকানা</th>
+                        <th className="px-4 py-3 text-left font-bold text-green-900">ধরণ</th>
+                        <th className="px-4 py-3 text-left font-bold text-green-900">অবস্থা</th>
+                        <th className="px-4 py-3 text-right font-bold text-green-900">ব্যবস্থাপনা</th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-green-100">
+                      {users
+                        .filter(user => 
+                          user.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                          user.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                          user.role.toLowerCase().includes(searchTerm.toLowerCase())
+                        )
+                        .map((user) => (
+                          <tr key={user.id} className="hover:bg-green-50">
+                            <td className="px-4 py-3">
+                              <img
+                                src={user.photo}
+                                alt={`${user.name}'s profile`}
+                                className="h-10 w-10 rounded-full object-cover"
+                              />
+                            </td>
+                            <td className="px-4 py-3 font-medium text-green-900">{user.name}</td>
+                            <td className="px-4 py-3 text-gray-600">{user.email}</td>
+                            <td className="px-4 py-3 text-gray-600">{user.role}</td>
+                            <td className="px-4 py-3 text-gray-600">{user.address}</td>
+                            <td className="px-4 py-3 text-gray-600">{user.type}</td>
+                            <td className="px-4 py-3">
+                              <span className={`inline-flex items-center rounded-full px-2 py-1 text-xs font-medium
+                                ${user.status === 'Active' ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'}`}>
+                                {user.status}
+                              </span>
+                            </td>
+                            <td className="px-4 py-3">
+                              <div className="flex justify-end gap-2">
+                                <button 
+                                  className="inline-flex h-8 w-8 items-center justify-center rounded-md border border-green-200 hover:bg-green-50"
+                                  title="বিস্তারিত দেখুন"
+                                >
+                                  <Eye className="h-4 w-4 text-green-600" />
+                                </button>
+                                <button 
+                                  className="inline-flex h-8 w-8 items-center justify-center rounded-md border border-green-200 hover:bg-green-50"
+                                  title="ব্যবহারকারী ব্লক করুন"
+                                >
+                                  <Ban className="h-4 w-4 text-yellow-600" />
+                                </button>
+                                <button 
+                                  className="inline-flex h-8 w-8 items-center justify-center rounded-md border border-green-200 hover:bg-green-50"
+                                  title="ব্যবহারকারী মুছে ফেলুন"
+                                >
+                                  <UserX className="h-4 w-4 text-red-600" />
+                                </button>
+                              </div>
+                            </td>
+                          </tr>
+                        ))}
+                    </tbody>
+                  </table>
+                </div>
               </div>
             </div>
           </div>
