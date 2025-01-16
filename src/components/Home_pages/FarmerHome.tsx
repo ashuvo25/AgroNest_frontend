@@ -104,6 +104,7 @@ const knowledgeHub: KnowledgeItem[] = [
 const FarmerHome: React.FC = () => {
   const [currentView, setCurrentView] = useState<string>('home');
   const [selectedFeature, setSelectedFeature] = useState<Feature | null>(null);
+  const [activeTab, setActiveTab] = useState<string>('/farmer');
 
   // Add new state for hero slider
   const [currentHeroSlide, setCurrentHeroSlide] = useState(0);
@@ -369,7 +370,11 @@ const FarmerHome: React.FC = () => {
 
   return (
     // Add pb-16 to main container to account for mobile navigation
-    <div className="min-h-screen flex flex-col bg-gray-50 pb-16 md:pb-0">
+    <div className="bg-gray-50 min-h-screen font-sans" style={{
+            '--mint-50': '#f0fdf4',
+            '--mint-100': '#dcfce7',
+            '--mint-200': '#bbf7d0',
+          } as React.CSSProperties}>
       {/* Header - Solid color background */}
       <header className="bg-white shadow-md sticky top-0 z-50">
         <div className="container mx-auto px-4 py-4 flex items-center justify-between">
@@ -384,18 +389,13 @@ const FarmerHome: React.FC = () => {
 
           {/* Right Icons */}
           <div className="flex items-center gap-4">
-            <button className="p-2 hover:bg-gray-100 rounded-full relative">
-              <FiBell className="h-6 w-6 text-gray-600" />
-              <span className="absolute top-0 right-0 h-2 w-2 bg-red-500 rounded-full"></span>
-            </button>
+            
             <button 
               onClick={() => handleNavigation('/Cart')} 
               className="p-2 hover:bg-gray-100 rounded-full relative"
             >
               <FiShoppingCart className="h-6 w-6 text-gray-600" />
-              <span className="absolute top-0 right-0 h-5 w-5 bg-green-500 rounded-full text-white text-xs flex items-center justify-center">
-                2
-              </span>
+              
             </button>
           </div>
         </div>
@@ -593,32 +593,31 @@ const FarmerHome: React.FC = () => {
 
       {/* Mobile Bottom Navigation - 3D Style */}
       <div className="md:hidden fixed bottom-0 left-0 right-0 bg-gradient-to-b from-white to-slate-50 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.1)] border-t border-slate-200 px-2 py-2 flex justify-around">
-        <button onClick={() => handleNavigation('/home_page')} 
-                className="text-slate-700 flex flex-col items-center px-3 py-1.5 rounded-lg border-r border-slate-200 hover:bg-white hover:shadow-lg transform hover:-translate-y-0.5 transition-all duration-200 active:translate-y-0 active:shadow-inner">
-          <span className="text-xl drop-shadow-sm">🏠</span>
-          <span className="text-[11px] mt-0.5 font-medium text-slate-600">হোম</span>
-        </button>
-        <button onClick={() => handleNavigation('/marketplace')} 
-                className="text-slate-700 flex flex-col items-center px-3 py-1.5 rounded-lg border-r border-slate-200 hover:bg-white hover:shadow-lg transform hover:-translate-y-0.5 transition-all duration-200 active:translate-y-0 active:shadow-inner">
-          <span className="text-xl drop-shadow-sm">🏪</span>
-          <span className="text-[11px] mt-0.5 font-medium text-slate-600">মার্কেট</span>
-        </button>
-        <button onClick={() => handleNavigation('/ai_ml')} 
-                className="text-slate-700 flex flex-col items-center px-3 py-1.5 rounded-lg border-r border-slate-200 hover:bg-white hover:shadow-lg transform hover:-translate-y-0.5 transition-all duration-200 active:translate-y-0 active:shadow-inner">
-          <span className="text-xl drop-shadow-sm">🤖</span>
-          <span className="text-[11px] mt-0.5 font-medium text-slate-600">AI/ML</span>
-        </button>
-        <button onClick={() => handleNavigation('/rent')} 
-                className="text-slate-700 flex flex-col items-center px-3 py-1.5 rounded-lg border-r border-slate-200 hover:bg-white hover:shadow-lg transform hover:-translate-y-0.5 transition-all duration-200 active:translate-y-0 active:shadow-inner">
-          <span className="text-xl drop-shadow-sm">🚜</span>
-          <span className="text-[11px] mt-0.5 font-medium text-slate-600">ভাড়া করুন</span>
-        </button>
-        <button onClick={() => handleNavigation('/profile')} 
-                className="text-slate-700 flex flex-col items-center px-3 py-1.5 rounded-lg hover:bg-white hover:shadow-lg transform hover:-translate-y-0.5 transition-all duration-200 active:translate-y-0 active:shadow-inner">
-          <span className="text-xl drop-shadow-sm">👤</span>
-          <span className="text-[11px] mt-0.5 font-medium text-slate-600">প্রোফাইল</span>
-        </button>
-      </div>
+  {[
+    { path: '/farmer', icon: '🏠', text: 'হোম' },
+    { path: '/marketplace', icon: '🏪', text: 'মার্কেট' },
+    { path: '/ai_ml', icon: '🤖', text: 'AI/ML' },
+    { path: '/rent', icon: '🚜', text: 'ভাড়া করুন' },
+    { path: '/profile', icon: '👤', text: 'প্রোফাইল' }
+  ].map((item, index) => (
+    <button 
+      onClick={() => {
+        setActiveTab(item.path);
+        handleNavigation(item.path);
+      }}
+      className={`text-slate-700 flex flex-col items-center px-3 py-1.5 rounded-lg 
+        ${index !== 4 ? 'border-r border-slate-200' : ''} 
+        hover:bg-[var(--mint-100)] hover:shadow-lg transform hover:-translate-y-0.5 
+        transition-all duration-200 active:translate-y-0 active:shadow-inner
+        ${activeTab === item.path ? 'bg-[var(--mint-100)] shadow-inner text-green-700' : ''}`}
+    >
+      <span className="text-xl drop-shadow-sm">{item.icon}</span>
+      <span className={`text-[11px] mt-0.5 font-medium ${activeTab === item.path ? 'text-green-700' : 'text-slate-600'}`}>
+        {item.text}
+      </span>
+    </button>
+  ))}
+</div>
     </div>
 
     
