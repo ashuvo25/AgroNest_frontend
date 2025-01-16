@@ -169,156 +169,105 @@ const InfoHub = () => {
         </div>
 
         {activeView === 'post' ? (
-          // Existing form and blog list view
-          <div className="flex h-[calc(100vh-64px)] overflow-hidden">
-            {/* Form Section */}
-            <div className="w-1/2 overflow-y-auto p-6">
-              <div className="max-w-full">
-                <div className="mb-6 flex justify-between items-center">
-                  <div>
-                    <h2 className="text-2xl font-bold text-gray-800">Add New Information</h2>
-                    <p className="text-sm text-gray-600">Share agricultural knowledge and insights</p>
-                  </div>
+          // Form Section - Now with full width
+          <div className="h-[calc(100vh-64px)] overflow-y-auto p-6">
+            <div className="max-w-3xl mx-auto">
+              <div className="mb-6 flex justify-between items-center">
+                <div>
+                  <h2 className="text-2xl font-bold text-gray-800">Add New Information</h2>
+                  <p className="text-sm text-gray-600">Share agricultural knowledge and insights</p>
+                </div>
+              </div>
+
+              <form onSubmit={handleSubmit} className="rounded-lg border border-green-100 bg-white p-6 shadow-sm">
+                <div className="mb-4">
+                  <label className="mb-1 block text-sm font-medium text-gray-700">Title</label>
+                  <input
+                    type="text"
+                    name="title"
+                    value={formData.title}
+                    onChange={handleInputChange}
+                    className="w-full rounded-lg border border-green-200 p-2 focus:border-green-500 focus:outline-none"
+                    placeholder="Enter information title"
+                  />
                 </div>
 
-                <form onSubmit={handleSubmit} className="rounded-lg border border-green-100 bg-white p-6 shadow-sm">
-                  <div className="mb-4">
-                    <label className="mb-1 block text-sm font-medium text-gray-700">Title</label>
-                    <input
-                      type="text"
-                      name="title"
-                      value={formData.title}
-                      onChange={handleInputChange}
-                      className="w-full rounded-lg border border-green-200 p-2 focus:border-green-500 focus:outline-none"
-                      placeholder="Enter information title"
-                    />
-                  </div>
+                <div className="mb-4">
+                  <label className="mb-1 block text-sm font-medium text-gray-700">Description</label>
+                  <textarea
+                    name="description"
+                    value={formData.description}
+                    onChange={handleInputChange}
+                    rows={4}
+                    className="w-full rounded-lg border border-green-200 p-2 focus:border-green-500 focus:outline-none"
+                    placeholder="Enter detailed description"
+                  />
+                </div>
 
-                  <div className="mb-4">
-                    <label className="mb-1 block text-sm font-medium text-gray-700">Description</label>
-                    <textarea
-                      name="description"
-                      value={formData.description}
-                      onChange={handleInputChange}
-                      rows={4}
-                      className="w-full rounded-lg border border-green-200 p-2 focus:border-green-500 focus:outline-none"
-                      placeholder="Enter detailed description"
-                    />
-                  </div>
+                <div className="mb-4">
+                  <label className="mb-1 block text-sm font-medium text-gray-700">Source</label>
+                  <input
+                    type="text"
+                    name="source"
+                    value={formData.source}
+                    onChange={handleInputChange}
+                    className="w-full rounded-lg border border-green-200 p-2 focus:border-green-500 focus:outline-none"
+                    placeholder="Enter information source"
+                  />
+                </div>
 
-                  <div className="mb-4">
-                    <label className="mb-1 block text-sm font-medium text-gray-700">Source</label>
-                    <input
-                      type="text"
-                      name="source"
-                      value={formData.source}
-                      onChange={handleInputChange}
-                      className="w-full rounded-lg border border-green-200 p-2 focus:border-green-500 focus:outline-none"
-                      placeholder="Enter information source"
-                    />
-                  </div>
-
-                  <div className="mb-4">
-                    <label className="mb-1 block text-sm font-medium text-gray-700">Category</label>
-                    <select
-                      name="category"
-                      value={formData.category}
-                      onChange={handleInputChange}
-                      className="w-full rounded-lg border border-green-200 p-2 focus:border-green-500 focus:outline-none"
-                    >
-                      <option value="">Select category</option>
-                      <option value="farming">Farming</option>
-                      <option value="crops">Crops</option>
-                      <option value="livestock">Livestock</option>
-                      <option value="technology">Technology</option>
-                    </select>
-                  </div>
-
-                  <div className="mb-4">
-                    <label className="mb-1 block text-sm font-medium text-gray-700">Tags</label>
-                    <input
-                      type="text"
-                      name="tags"
-                      value={formData.tags}
-                      onChange={handleInputChange}
-                      className="w-full rounded-lg border border-green-200 p-2 focus:border-green-500 focus:outline-none"
-                      placeholder="Enter tags separated by commas"
-                    />
-                  </div>
-
-                  <div className="mb-6">
-                    <label className="mb-1 block text-sm font-medium text-gray-700">Image</label>
-                    <div className="mt-1 flex items-center">
-                      <label className="flex cursor-pointer items-center rounded-lg border border-green-200 px-4 py-2 hover:bg-green-50">
-                        <ImageIcon className="mr-2 h-5 w-5 text-green-600" />
-                        <span className="text-sm text-gray-600">Choose Image</span>
-                        <input
-                          type="file"
-                          name="infoImage"
-                          onChange={handleImageChange}
-                          className="hidden"
-                          accept="image/*"
-                        />
-                      </label>
-                    </div>
-                  </div>
-
-                  <button
-                    type="submit"
-                    className="flex items-center rounded-lg bg-green-600 px-4 py-2 text-white hover:bg-green-700"
+                <div className="mb-4">
+                  <label className="mb-1 block text-sm font-medium text-gray-700">Category</label>
+                  <select
+                    name="category"
+                    value={formData.category}
+                    onChange={handleInputChange}
+                    className="w-full rounded-lg border border-green-200 p-2 focus:border-green-500 focus:outline-none"
                   >
-                    <Plus className="mr-2 h-5 w-5" />
-                    Add Information
-                  </button>
-                </form>
-              </div>
-            </div>
+                    <option value="">Select category</option>
+                    <option value="farming">Farming</option>
+                    <option value="crops">Crops</option>
+                    <option value="livestock">Livestock</option>
+                    <option value="technology">Technology</option>
+                  </select>
+                </div>
 
-            {/* Blog List Section */}
-            <div className="w-1/2 overflow-y-auto bg-green-50 p-6">
-              <div className="max-w-full">
+                <div className="mb-4">
+                  <label className="mb-1 block text-sm font-medium text-gray-700">Tags</label>
+                  <input
+                    type="text"
+                    name="tags"
+                    value={formData.tags}
+                    onChange={handleInputChange}
+                    className="w-full rounded-lg border border-green-200 p-2 focus:border-green-500 focus:outline-none"
+                    placeholder="Enter tags separated by commas"
+                  />
+                </div>
+
                 <div className="mb-6">
-                  <h2 className="text-2xl font-bold text-gray-800">Published Information</h2>
-                  <p className="text-sm text-gray-600">Browse and manage agricultural content</p>
-                </div>
-
-                <div className="space-y-4">
-                  {blogs.map(blog => (
-                    <div key={blog.id} className="group relative rounded-lg border border-green-100 bg-white p-4 shadow-sm">
-                      <div className="absolute right-2 top-2 z-10">
-                        <button
-                          onClick={() => handleDelete(blog.id)}
-                          className="flex h-8 w-8 items-center justify-center rounded-full bg-white/90 text-red-500 shadow-sm hover:bg-red-50"
-                          title="Delete blog"
-                        >
-                          <Trash2 className="h-4 w-4" />
-                        </button>
-                      </div>
-                      <img
-                        src={blog.image}
-                        alt={blog.title}
-                        className="mb-4 h-32 w-full rounded-lg object-cover"
+                  <label className="mb-1 block text-sm font-medium text-gray-700">Image</label>
+                  <div className="mt-1 flex items-center">
+                    <label className="flex cursor-pointer items-center rounded-lg border border-green-200 px-4 py-2 hover:bg-green-50">
+                      <ImageIcon className="mr-2 h-5 w-5 text-green-600" />
+                      <span className="text-sm text-gray-600">Choose Image</span>
+                      <input
+                        type="file"
+                        name="infoImage"
+                        onChange={handleImageChange}
+                        className="hidden"
+                        accept="image/*"
                       />
-                      <h3 className="mb-2 text-lg font-semibold text-gray-800">{blog.title}</h3>
-                      <p className="mb-3 text-sm text-gray-600">{blog.description}</p>
-                      <div className="mb-2 text-sm text-gray-500">Source: {blog.source}</div>
-                      <div className="mb-3">
-                        <span className="rounded-full bg-green-100 px-2 py-1 text-xs font-medium text-green-700">
-                          {blog.category}
-                        </span>
-                      </div>
-                      <div className="flex flex-wrap gap-2">
-                        {blog.tags.map(tag => (
-                          <span key={tag} className="flex items-center rounded-full bg-gray-100 px-2 py-1 text-xs text-gray-600">
-                            <Tag className="mr-1 h-3 w-3" />
-                            {tag}
-                          </span>
-                        ))}
-                      </div>
-                    </div>
-                  ))}
+                    </label>
+                  </div>
                 </div>
-              </div>
+                <button
+                  type="submit"
+                  className="flex items-center rounded-lg bg-green-600 px-4 py-2 text-white hover:bg-green-700"
+                >
+                  <Plus className="mr-2 h-5 w-5" />
+                  Add Information
+                </button>
+              </form>
             </div>
           </div>
         ) : (
