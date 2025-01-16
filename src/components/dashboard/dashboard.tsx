@@ -57,10 +57,10 @@ const Dashboard = () => {
       {/* Side Navigation */}
       <div className="fixed h-screen w-64 flex flex-col bg-white shadow-lg">
         {/* Header */}
-        <div className="border-b border-green-100 bg-green-700 p-4">
-          <div className="flex items-center gap-2">
-            <Sprout className="h-6 w-6 text-white" />
-            <h1 className="text-xl font-bold text-white">AgroNest</h1>
+        <div className="border-b border-green-100 bg-green-700 p-6">
+          <div className="flex items-center gap-3">
+            <Sprout className="h-7 w-7 text-white drop-shadow-sm" />
+            <h1 className="text-2xl font-bold text-white drop-shadow-sm">AgroNest</h1>
           </div>
         </div>
         
@@ -125,15 +125,14 @@ const Dashboard = () => {
         {/* Top Menu Bar */}
         <div className="fixed top-0 right-0 left-64 bg-green-700 h-16 shadow-md z-10">
           <div className="flex items-center justify-between h-full px-6">
-            <h2 className="text-xl font-bold text-white">Admin Dashboard</h2>
+            {/* <h2 className="text-xl font-bold text-white">Admin Dashboard</h2> */}
             <div className="flex items-center gap-4">
-              <span className="text-white font-bold">John Doe</span>
-              {/* Add more menu items here if needed */}
+              {/* <span className="text-white font-bold">John Doe</span> */}
             </div>
           </div>
         </div>
-
-        {/* Main Content - Adjusted to account for top bar */}
+        
+        {/* Main Content - Adjusted for consistent top bar height */}
         <div className="pt-16 p-6 h-screen overflow-y-auto">
           {/* Content wrapper */}
           <div className="max-w-full">
