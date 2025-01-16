@@ -167,9 +167,9 @@ const InfoHub = () => {
   return (
     <div className="flex h-screen bg-gradient-to-br from-green-50 to-green-100">
       {/* Side Navigation */}
-      <div className="fixed h-screen w-64 flex flex-col bg-white shadow-xl">
+      <div className="fixed h-screen w-64 flex flex-col bg-white shadow-lg">
         {/* Header */}
-        <div className="border-b border-green-100 bg-gradient-to-r from-green-700 to-green-600 p-6">
+        <div className="border-b border-green-100 bg-green-700 p-6">
           <div className="flex items-center gap-3">
             <Sprout className="h-7 w-7 text-white drop-shadow-sm" />
             <h1 className="text-2xl font-bold text-white drop-shadow-sm">AgroNest</h1>
@@ -228,44 +228,46 @@ const InfoHub = () => {
 
       {/* Main Content */}
       <div className="flex-1 ml-64 flex flex-col">
-        {/* Enhanced Menu Bar - Fixed Position */}
-        <div className="bg-green-700 shadow-md p-4 flex items-center justify-between sticky top-0 z-10">
-          <div className="flex gap-4 items-center">
-            <button
-              onClick={() => setActiveView('post')}
-              className={`px-8 py-2.5 rounded-lg transition-all duration-200 font-bold text-base ${
-                activeView === 'post'
-                  ? 'bg-white text-green-700'
-                  : 'bg-green-600 text-white hover:bg-green-500'
-              }`}
-            >
-              পোস্ট নিউজ
-            </button>
-            <button
-              onClick={() => setActiveView('list')}
-              className={`px-8 py-2.5 rounded-lg transition-all duration-200 font-bold text-base ${
-                activeView === 'list'
-                  ? 'bg-white text-green-700'
-                  : 'bg-green-600 text-white hover:bg-green-500'
-              }`}
-            >
-              সকল পোস্ট
-            </button>
-          </div>
-          
-          {/* Conditional Search Bar */}
-          {activeView === 'list' && (
-            <div className="relative w-96 animate-fadeIn">
-              <input
-                type="text"
-                placeholder="Search posts..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full pl-10 pr-4 py-2 rounded-lg border-2 border-green-600 focus:border-green-500 focus:outline-none focus:ring-2 focus:ring-green-200"
-              />
-              <Search className="absolute left-3 top-2.5 h-5 w-5 text-gray-400" />
+        {/* Enhanced Menu Bar - Fixed Position with consistent height */}
+        <div className="bg-green-700 h-16 shadow-md sticky top-0 z-10">
+          <div className="h-full flex items-center justify-between px-6">
+            <div className="flex gap-4 items-center">
+              <button
+                onClick={() => setActiveView('post')}
+                className={`px-8 py-2.5 rounded-lg transition-all duration-200 font-bold text-base ${
+                  activeView === 'post'
+                    ? 'bg-white text-green-700'
+                    : 'bg-green-600 text-white hover:bg-green-500'
+                }`}
+              >
+                পোস্ট নিউজ
+              </button>
+              <button
+                onClick={() => setActiveView('list')}
+                className={`px-8 py-2.5 rounded-lg transition-all duration-200 font-bold text-base ${
+                  activeView === 'list'
+                    ? 'bg-white text-green-700'
+                    : 'bg-green-600 text-white hover:bg-green-500'
+                }`}
+              >
+                সকল পোস্ট
+              </button>
             </div>
-          )}
+            
+            {/* Conditional Search Bar */}
+            {activeView === 'list' && (
+              <div className="relative w-96">
+                <input
+                  type="text"
+                  placeholder="Search posts..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="w-full pl-10 pr-4 py-2 rounded-lg border-2 border-green-600 focus:border-green-500 focus:outline-none focus:ring-2 focus:ring-green-200"
+                />
+                <Search className="absolute left-3 top-2.5 h-5 w-5 text-gray-400" />
+              </div>
+            )}
+          </div>
         </div>
 
         {activeView === 'post' ? (
