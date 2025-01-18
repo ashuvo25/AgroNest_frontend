@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { FiSearch, FiBell, FiShoppingCart, FiMenu, FiHome, FiUser } from 'react-icons/fi';
 
 
-const HomePage: React.FC = () => {
+const Marketplace: React.FC = () => {
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState(window.location.pathname);
 
@@ -267,4 +267,4 @@ const HomePage: React.FC = () => {
   );
 };
 
-export default HomePage;
+export default Marketplace;
