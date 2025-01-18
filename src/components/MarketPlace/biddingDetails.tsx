@@ -214,7 +214,8 @@ const CropBiddingPage = () => {
             >
               <Box sx={{ 
                 position: 'relative',
-                height: { xs: 300, md: 400 },
+                // Reduced height for both mobile and desktop
+                height: { xs: 200, md: 300 }, // Changed from { xs: 300, md: 400 }
                 borderRadius: '8px',
                 border: '1px solid #e8e6df',
                 overflow: 'hidden'
