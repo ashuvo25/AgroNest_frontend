@@ -23,6 +23,10 @@ import DealerHome from './components/Home_pages/DealerHome'
 import FarmerHome from './components/Home_pages/FarmerHome'
 import ExpertHome from './components/Home_pages/ExpertHome'
 import VendorHome from './components/Home_pages/VendorHome'
+import Dashboard from './components/dashboard/dashboard'
+import InfoHub from './components/dashboard/info-hub'
+import BiddingProd from './components/MarketPlace/bidding'
+import CropBiddingPage from './components/MarketPlace/biddingDetails'
 
 
 
@@ -53,6 +57,15 @@ const App = () => {
           <Route path="/farmer" element={<FarmerHome/>} />
           <Route path="/expart" element={<ExpertHome/>} />
           <Route path="/vendor" element={<VendorHome/>} />
+          <Route path="/dashboard" element={<Dashboard/>} />
+          <Route path="/info-hub" element={<InfoHub/>} />
+          <Route path="/bidding" element={<BiddingProd/>} />
+          <Route path="/biddingProduct" element={<CropBiddingPage/>} />
+
+
+
+          
+
         </Routes>
       </Router>
     </DiseaseProvider>
