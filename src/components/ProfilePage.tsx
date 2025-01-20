@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { termsAndConditions, privacyPolicy, faq, logoutConfirmation } from './Terms';
 import { ContentModal, ConfirmationModal } from './Modals';
@@ -22,6 +22,16 @@ interface EditProfileForm {
   email: string;
   password: string;
   profilePicture: File | null;
+}
+
+interface UserDetails {
+  name: string;
+  email: string;
+  location: string;
+  phone: string;
+  occupation: string;
+  bio: string;
+  profilePicture: string;  // Add this line
 }
 
 const StatsCard: React.FC<{ 
@@ -368,6 +378,190 @@ const EditProfileModal: React.FC<{
   );
 };
 
+const EditProfileSection: React.FC<{
+  userDetails: UserDetails;
+  onUpdate: (data: Partial<UserDetails>) => void;
+}> = ({ userDetails, onUpdate }) => {
+  const [isEditing, setIsEditing] = useState(false);
+  const [formData, setFormData] = useState(userDetails);
+  const [previewUrl, setPreviewUrl] = useState(userDetails.profilePicture);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setPreviewUrl(reader.result as string);
+        setFormData(prev => ({ ...prev, profilePicture: reader.result as string }));
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    onUpdate(formData);
+    setIsEditing(false);
+  };
+
+  return (
+    <div className="bg-gradient-to-br from-white to-green-50/30 backdrop-blur-sm rounded-xl p-4 shadow-md border border-green-100 mb-6">
+      <div className="flex justify-between items-center mb-4">
+        <h2 className="text-lg font-semibold text-green-800">প্রোফাইল তথ্য</h2>
+        {!isEditing && (
+          <button
+            onClick={() => setIsEditing(true)}
+            className="p-2 bg-green-50 text-green-600 rounded-lg hover:bg-green-100 transition-colors"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+            </svg>
+          </button>
+        )}
+      </div>
+
+      {/* Profile Picture Section */}
+      <div className="flex justify-center mb-6">
+        <div className="relative">
+          <img
+            src={previewUrl || "src/assets/farmer.jpg"}
+            alt="Profile"
+            className="w-24 h-24 rounded-full object-cover border-4 border-white shadow-lg"
+          />
+          {isEditing && (
+            <button
+              onClick={() => fileInputRef.current?.click()}
+              className="absolute bottom-0 right-0 bg-green-500 text-white p-2 rounded-full shadow-lg hover:bg-green-600 transition-colors"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" />
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" />
+              </svg>
+            </button>
+          )}
+          <input
+            ref={fileInputRef}
+            type="file"
+            accept="image/*"
+            onChange={handleFileChange}
+            className="hidden"
+          />
+        </div>
+      </div>
+
+      {isEditing ? (
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <div className="space-y-2">
+            <label className="block text-sm font-medium text-gray-700 flex items-center gap-2">
+              <span className="text-green-600">👤</span> নাম
+            </label>
+            <input
+              type="text"
+              value={formData.name}
+              onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+              className="w-full px-3 py-2 bg-white/50 border border-green-200 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition-colors"
+            />
+          </div>
+
+          <div className="space-y-2">
+            <label className="block text-sm font-medium text-gray-700 flex items-center gap-2">
+              <span className="text-green-600">📧</span> ইমেইল
+            </label>
+            <input
+              type="email"
+              value={formData.email}
+              onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+              className="w-full px-3 py-2 bg-white/50 border border-green-200 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition-colors"
+            />
+          </div>
+
+          <div className="space-y-2">
+            <label className="block text-sm font-medium text-gray-700 flex items-center gap-2">
+              <span className="text-green-600">📍</span> ঠিকানা
+            </label>
+            <input
+              type="text"
+              value={formData.location}
+              onChange={(e) => setFormData({ ...formData, location: e.target.value })}
+              className="w-full px-3 py-2 bg-white/50 border border-green-200 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition-colors"
+            />
+          </div>
+
+          <div className="space-y-2">
+            <label className="block text-sm font-medium text-gray-700 flex items-center gap-2">
+              <span className="text-green-600">📱</span> ফোন
+            </label>
+            <input
+              type="tel"
+              value={formData.phone}
+              onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+              className="w-full px-3 py-2 bg-white/50 border border-green-200 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition-colors"
+            />
+          </div>
+
+          <div className="space-y-2">
+            <label className="block text-sm font-medium text-gray-700 flex items-center gap-2">
+              <span className="text-green-600">💼</span> পেশা
+            </label>
+            <input
+              type="text"
+              value={formData.occupation}
+              onChange={(e) => setFormData({ ...formData, occupation: e.target.value })}
+              className="w-full px-3 py-2 bg-white/50 border border-green-200 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition-colors"
+            />
+          </div>
+
+          <div className="flex gap-3 pt-4">
+            <button
+              type="button"
+              onClick={() => setIsEditing(false)}
+              className="flex-1 px-4 py-2 bg-white text-gray-700 rounded-lg hover:bg-gray-50 transition-colors border border-gray-200 flex items-center justify-center gap-2"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              </svg>
+              বাতিল
+            </button>
+            <button
+              type="submit"
+              className="flex-1 px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors flex items-center justify-center gap-2"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+              </svg>
+              সংরক্ষণ
+            </button>
+          </div>
+        </form>
+      ) : (
+        <div className="space-y-4 bg-white/50 rounded-lg p-4">
+          <div className="flex items-center gap-2">
+            <span className="text-gray-500 text-sm">নাম:</span>
+            <span className="font-medium">{userDetails.name}</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <span className="text-gray-500 text-sm">ইমেইল:</span>
+            <span className="font-medium">{userDetails.email}</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <span className="text-gray-500 text-sm">ঠিকানা:</span>
+            <span className="font-medium">{userDetails.location}</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <span className="text-gray-500 text-sm">ফোন:</span>
+            <span className="font-medium">{userDetails.phone}</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <span className="text-gray-500 text-sm">পেশা:</span>
+            <span className="font-medium">{userDetails.occupation}</span>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+};
+
 const ProfilePage: React.FC = () => {
   const navigate = useNavigate();
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
@@ -388,6 +582,15 @@ const ProfilePage: React.FC = () => {
     followersCount: 124
   };
 
+  const [userDetails, setUserDetails] = useState<UserDetails>({
+    name: 'কৃষক আহমেদ',
+    email: 'ahmed@example.com',
+    location: 'ঢাকা, বাংলাদেশ',
+    phone: '+880 1234567890',
+    occupation: 'জৈব কৃষি বিশেষজ্ঞ',
+    bio: 'জৈব কৃষি নিয়ে কাজ করছি ১০ বছর ধরে',
+    profilePicture: "src/assets/farmer.jpg"  // Add this line
+  });
 
   const handleUpdateProfile = (data: Partial<EditProfileForm>) => {
     console.log('Profile update data:', data);
@@ -395,38 +598,39 @@ const ProfilePage: React.FC = () => {
     // For now, we'll just log the data
   };
 
+  const handleUpdateUserDetails = (data: Partial<UserDetails>) => {
+    setUserDetails(prev => ({ ...prev, ...data }));
+    // Here you would typically make an API call to update the user details
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-green-50/90 via-white to-green-50/50">
       {/* Header */}
-      <header className="fixed top-0 w-full bg-green-100 backdrop-blur-lg border-b border-green-700/20 z-40">
-        <div className="container mx-auto px-4 h-14">
-          <div className="flex items-center justify-between h-full">
+      <header className="fixed top-0 w-full bg-gradient-to-b from-green-100 to-green-50 backdrop-blur-lg border-b border-green-700/20 z-40">
+        <div className="container mx-auto px-4">
+          <div className="flex items-center h-16 relative">
             <button 
               onClick={() => navigate(-1)}
-              className="p-2 hover:bg-white/10 rounded-lg transition-colors text-green-800"
+              className="p-2 hover:bg-green-100 rounded-lg transition-colors text-green-800 absolute left-0"
             >
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-              </svg> 
+              </svg>
             </button>
-            {/* <h1 className="text-base font-semibold text-green-800">প্রোফাইল</h1> */}
-            <div className="flex items-center gap-2">
-              <div className="text-right mr-2">
-                <h2 className="text-sm font-medium text-green-800">কৃষক আহমেদ</h2>
-                <p className="text-xs text-green-600">জৈব কৃষি বিশেষজ্ঞ</p>
-              </div>
-              <img
-                src="src\assets\farmer.jpg"
-                alt="Profile"
-                className="w-8 h-8 rounded-lg object-cover border border-white shadow-sm"
-              />
-            </div>
+            
+            <h1 className="text-base font-medium text-green-800 flex-1 text-center">
+              আমার প্রোফাইল
+            </h1>
           </div>
         </div>
       </header>
 
       {/* Main Content */}
       <main className="container mx-auto px-4 pt-20 pb-6 md:pb-4 max-w-2xl"> {/* Changed pb-24 to pb-6 and md:pb-8 to md:pb-4 */}
+        <EditProfileSection
+          userDetails={userDetails}
+          onUpdate={handleUpdateUserDetails}
+        />
         {/* Stats Grid */}
         <div className="grid grid-cols-2 gap-3 mb-6">
           <StatsCard 
