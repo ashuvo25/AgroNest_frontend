@@ -231,7 +231,7 @@ const MenuSection: React.FC<{
           {[
             { icon: '📢', label: 'ইভেন্টসমূহ', color: 'bg-purple-100 text-purple-700', onClick: () => navigate('/event') },
             // { icon: '🛟', label: 'সহায়তা কেন্দ্র', onClick: () => {} },
-            { icon: '⚙️', label: 'সেটিংস', onClick: onSettingsClick },
+            // { icon: '⚙️', label: 'সেটিংস', onClick: onSettingsClick },
             { icon: '🔒', label: 'গোপনীয়তা নীতি', onClick: () => handleMenuClick('privacy') },
             { icon: '📜', label: 'শর্তাবলী', onClick: () => handleMenuClick('terms') },
             { icon: '❓', label: 'প্রায়শই জিজ্ঞাসিত প্রশ্ন', onClick: () => handleMenuClick('faq') },
