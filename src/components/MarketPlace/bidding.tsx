@@ -269,7 +269,7 @@ const BiddingProd: React.FC = () => {
                         </div>
                         {/* Updated button design */}
                         <button 
-                          onClick={() => handleNavigation(`/bidding/${index}`)}
+                          onClick={() => handleNavigation(`/biddingProduct`)}
                           className="w-full bg-gradient-to-r from-green-600 to-green-500 text-white py-1.5 rounded-md text-xs 
                           hover:from-green-500 hover:to-green-600 transition-all transform hover:-translate-y-0.5 
                           shadow-sm hover:shadow-md active:translate-y-0 flex items-center justify-center gap-1.5"
