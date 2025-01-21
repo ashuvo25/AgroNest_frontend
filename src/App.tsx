@@ -27,6 +27,7 @@ import Dashboard from './components/dashboard/dashboard'
 import InfoHub from './components/dashboard/info-hub'
 import BiddingProd from './components/MarketPlace/bidding'
 import CropBiddingPage from './components/MarketPlace/biddingDetails'
+import OrderDetails from './components/MarketPlace/OrderDetails'
 
 
 
@@ -61,7 +62,9 @@ const App = () => {
           <Route path="/info-hub" element={<InfoHub/>} />
           <Route path="/bidding" element={<BiddingProd/>} />
           <Route path="/biddingProduct" element={<CropBiddingPage/>} />
+          <Route path="/ProductOrder" element={<OrderDetails/>} />
 
+          OrderDetails
 
 
           
