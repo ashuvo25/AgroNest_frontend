@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useDisease } from '../../context/DiseaseContext';
 
 const API_CONFIG = {
-  BASE_URL: `${window.location.protocol}//${window.location.hostname}:5000`,
+  BASE_URL: `${window.location.protocol}//${window.location.hostname}:5003`,
   ENDPOINTS: {
     predict: '/predict',
     chatbot: '/chat',

@@ -27,7 +27,7 @@ const SignIn: React.FC = () => {
   };
 
   const handleDemoAccess = () => {
-    navigate('/home_page');
+    navigate('/farmer');
   };
 
   return (

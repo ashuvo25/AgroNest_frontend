@@ -4,6 +4,7 @@ import { FiBox, FiDollarSign, FiTruck, FiUsers, FiPlus, FiPackage } from 'react-
 
 const VendorHome: React.FC = () => {
     const navigate = useNavigate();
+    const [activeTab, setActiveTab] = React.useState<string>('/expart');
 
     const handleNavigation = (path: string) => {
       navigate(path);
@@ -18,7 +19,11 @@ const VendorHome: React.FC = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-green-50 via-green-50/50 to-emerald-50 pb-16">
+    <div className="bg-gray-50 min-h-screen font-sans" style={{
+                '--mint-50': '#f0fdf4',
+                '--mint-100': '#dcfce7',
+                '--mint-200': '#bbf7d0',
+              } as React.CSSProperties}>
       {/* Header */}
       <header className="bg-white shadow-sm p-4">
         <div className="max-w-6xl mx-auto flex justify-between items-center">
@@ -94,29 +99,32 @@ const VendorHome: React.FC = () => {
       </main>
 
       {/* Mobile Navigation */}
-      <div className="md:hidden fixed bottom-0 left-0 right-0 bg-white shadow-lg border-t border-gray-100 px-2 py-1.5 flex justify-around">
-        <button onClick={() => handleNavigation('/home_page')} className="text-green-700 flex flex-col items-center">
-          <span className="text-2xl">🏠</span>
-          <span className="text-[10px] mt-0.5">হোম</span>
-        </button>
-        <button onClick={() => handleNavigation('/marketplace')} className="text-gray-600 flex flex-col items-center">
-          <span className="text-2xl">🏪</span>
-          <span className="text-[10px] mt-0.5">মার্কেট</span>
-        </button>
-        {/* <button onClick={() => handleNavigation('/ai_ml')} className="text-gray-600 flex flex-col items-center">
-          <span className="text-2xl">🤖</span>
-          <span className="text-[10px] mt-0.5">AI/ML</span>
-        </button> */}
-        <button onClick={() => handleNavigation('/rent')} className="text-gray-600 flex flex-col items-center">
-          <span className="text-2xl">🚜</span>
-          <span className="text-[10px] mt-0.5">ভাড়া করুন</span>
-        </button>
-        <button onClick={() => handleNavigation('/profile')} className="text-gray-600 flex flex-col items-center">
-          <span className="text-2xl">👤</span>
-          <span className="text-[10px] mt-0.5">প্রোফাইল</span>
-        </button>
-       
-      </div>
+      <div className="md:hidden fixed bottom-0 left-0 right-0 bg-gradient-to-b from-white to-slate-50 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.1)] border-t border-slate-200 px-2 py-2 flex justify-around">
+  {[
+    { path: '/expart', icon: '🏠', text: 'হোম' },
+    { path: '/marketplace', icon: '🏪', text: 'মার্কেট' },
+    { path: '/ai_ml', icon: '🤖', text: 'AI/ML' },
+    { path: '/rent', icon: '🚜', text: 'ভাড়া করুন' },
+    { path: '/profile', icon: '👤', text: 'প্রোফাইল' }
+  ].map((item, index) => (
+    <button 
+      onClick={() => {
+        setActiveTab(item.path);
+        handleNavigation(item.path);
+      }}
+      className={`text-slate-700 flex flex-col items-center px-3 py-1.5 rounded-lg 
+        ${index !== 4 ? 'border-r border-slate-200' : ''} 
+        hover:bg-[var(--mint-100)] hover:shadow-lg transform hover:-translate-y-0.5 
+        transition-all duration-200 active:translate-y-0 active:shadow-inner
+        ${activeTab === item.path ? 'bg-[var(--mint-100)] shadow-inner text-green-700' : ''}`}
+    >
+      <span className="text-xl drop-shadow-sm">{item.icon}</span>
+      <span className={`text-[11px] mt-0.5 font-medium ${activeTab === item.path ? 'text-green-700' : 'text-slate-600'}`}>
+        {item.text}
+      </span>
+    </button>
+  ))}
+</div>
     </div>
   );
 };

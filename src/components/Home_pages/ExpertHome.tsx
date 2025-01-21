@@ -4,13 +4,18 @@ import { FiEdit, FiBook, FiMessageCircle, FiAward, FiBell, FiUser, FiTrendingUp,
 
 const ExpertHome: React.FC = () => {
   const navigate = useNavigate();
+  const [activeTab, setActiveTab] = React.useState('/home_page');
   
   const handleNavigation = (path: string) => {
     navigate(path);
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-green-50">
+    <div className="bg-gray-50 min-h-screen font-sans" style={{
+            '--mint-50': '#f0fdf4',
+            '--mint-100': '#dcfce7',
+            '--mint-200': '#bbf7d0',
+          } as React.CSSProperties}>
       {/* Enhanced Header */}
       <header className="bg-white shadow-md p-4 sticky top-0 z-10">
         <div className="max-w-7xl mx-auto flex justify-between items-center">
@@ -113,8 +118,34 @@ const ExpertHome: React.FC = () => {
               ))}
             </div>
           </div>
-          
-          // ...existing mobile navigation code...
+  
+  {/* navigation button mobile */}
+   <div className="md:hidden fixed bottom-0 left-0 right-0 bg-gradient-to-b from-white to-slate-50 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.1)] border-t border-slate-200 px-2 py-2 flex justify-around">
+  {[
+    { path: '/expart', icon: '🏠', text: 'হোম' },
+    { path: '/marketplace', icon: '🏪', text: 'মার্কেট' },
+    { path: '/ai_ml', icon: '🤖', text: 'AI/ML' },
+    { path: '/rent', icon: '🚜', text: 'ভাড়া করুন' },
+    { path: '/profile', icon: '👤', text: 'প্রোফাইল' }
+  ].map((item, index) => (
+    <button 
+      onClick={() => {
+        setActiveTab(item.path);
+        handleNavigation(item.path);
+      }}
+      className={`text-slate-700 flex flex-col items-center px-3 py-1.5 rounded-lg 
+        ${index !== 4 ? 'border-r border-slate-200' : ''} 
+        hover:bg-[var(--mint-100)] hover:shadow-lg transform hover:-translate-y-0.5 
+        transition-all duration-200 active:translate-y-0 active:shadow-inner
+        ${activeTab === item.path ? 'bg-[var(--mint-100)] shadow-inner text-green-700' : ''}`}
+    >
+      <span className="text-xl drop-shadow-sm">{item.icon}</span>
+      <span className={`text-[11px] mt-0.5 font-medium ${activeTab === item.path ? 'text-green-700' : 'text-slate-600'}`}>
+        {item.text}
+      </span>
+    </button>
+  ))}
+</div>
         </div>
       </main>
     </div>

@@ -22,7 +22,7 @@ const Dashboard = () => {
   const users = [
     {
       id: 1,
-      photo: "/api/placeholder/40/40",
+      photo: "src/assets/eng.jpg",
       name: "John Doe",
       email: "john@agrifarm.com",
       role: "Farmer",
@@ -32,7 +32,7 @@ const Dashboard = () => {
     },
     {
       id: 2,
-      photo: "/api/placeholder/40/40",
+      photo: "src/assets/farmer.jpg",
       name: "Jane Smith",
       email: "jane@agritech.com",
       role: "Agricultural Expert",

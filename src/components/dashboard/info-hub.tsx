@@ -37,7 +37,7 @@ const InfoHub = () => {
       description: "Learn about the latest sustainable farming methods and their impact on the environment.",
       category: "Farming",
       tags: ["sustainable", "organic", "eco-friendly"],
-      image: "/api/placeholder/400/200",
+      image: "src/assets/farmer.jpg",
       source: "Agricultural Research Center",
       date: "2024-01-15" // Add date
     },
@@ -47,7 +47,7 @@ const InfoHub = () => {
       description: "Essential guide to identifying and preventing common crop diseases.",
       category: "Crops",
       tags: ["disease", "prevention", "management"],
-      image: "/api/placeholder/400/200",
+      image: "src/assets/farmer.jpg",
       source: "Plant Health Institute",
       date: "2024-01-16" // Add date
     },
@@ -57,7 +57,7 @@ const InfoHub = () => {
         description: "Essential guide to identifying and preventing common crop diseases.",
         category: "Crops",
         tags: ["disease", "prevention", "management"],
-        image: "/api/placeholder/400/200",
+        image: "src/assets/farmer.jpg",
         source: "Plant Health Institute",
         date: "2024-01-16" // Add date
       },
@@ -67,7 +67,7 @@ const InfoHub = () => {
         description: "Essential guide to identifying and preventing common crop diseases.",
         category: "Crops",
         tags: ["disease", "prevention", "management"],
-        image: "/api/placeholder/400/200",
+        image: "src/assets/farmer.jpg",
         source: "Plant Health Institute",
         date: "2024-01-16" // Add date
       },
@@ -77,7 +77,7 @@ const InfoHub = () => {
         description: "Essential guide to identifying and preventing common crop diseases.",
         category: "Crops",
         tags: ["disease", "prevention", "management"],
-        image: "/api/placeholder/400/200",
+        image: "src/assets/farmer.jpg",
         source: "Plant Health Institute",
         date: "2024-01-16" // Add date
       }
@@ -87,7 +87,7 @@ const InfoHub = () => {
         description: "Essential guide to identifying and preventing common crop diseases.",
         category: "Crops",
         tags: ["disease", "prevention", "management"],
-        image: "/api/placeholder/400/200",
+        image: "src/assets/farmer.jpg",
         source: "Plant Health Institute",
         date: "2024-01-16" // Add date
       },
@@ -97,7 +97,7 @@ const InfoHub = () => {
         description: "Essential guide to identifying and preventing common crop diseases.",
         category: "Crops",
         tags: ["disease", "prevention", "management"],
-        image: "/api/placeholder/400/200",
+        image: "src/assets/farmer.jpg",
         source: "Plant Health Institute",
         date: "2024-01-16" // Add date
       },
@@ -107,7 +107,7 @@ const InfoHub = () => {
         description: "Essential guide to identifying and preventing common crop diseases.",
         category: "Crops",
         tags: ["disease", "prevention", "management"],
-        image: "/api/placeholder/400/200",
+        image: "src/assets/farmer.jpg",
         source: "Plant Health Institute",
         date: "2024-01-16" // Add date
       },
@@ -117,7 +117,7 @@ const InfoHub = () => {
         description: "Essential guide to identifying and preventing common crop diseases.",
         category: "Crops",
         tags: ["disease", "prevention", "management"],
-        image: "/api/placeholder/400/200",
+        image: "src/assets/farmer.jpg",
         source: "Plant Health Institute",
         date: "2024-01-16" // Add date
       },
@@ -127,13 +127,13 @@ const InfoHub = () => {
         description: "Essential guide to identifying and preventing common crop diseases.",
         category: "Crops",
         tags: ["disease", "prevention", "management"],
-        image: "/api/placeholder/400/200",
+        image: "src/assets/farmer.jpg",
         source: "Plant Health Institute",
         date: "2024-01-16" // Add date
       }
   ]);
 
-  const handleInputChange = (e) => {
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     setFormData(prev => ({
       ...prev,
@@ -141,17 +141,18 @@ const InfoHub = () => {
     }));
   };
 
-  const handleImageChange = (e) => {
-    // Handle image upload logic here
-    console.log('Image selected:', e.target.files[0]);
-  };
+const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  // Handle image upload logic here
+  console.log('Image selected:', e.target.files?.[0]);
+};
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log('Form submitted:', formData);
-  };
+const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  e.preventDefault();
+  // Handle form submission logic here
+  console.log('Form submitted:', formData);
+};
 
-  const handleDelete = (blogId) => {
+const handleDelete = (blogId: number) => {
     setBlogs(prevBlogs => prevBlogs.filter(blog => blog.id !== blogId));
   };
 

@@ -149,14 +149,7 @@ const FarmerHome: React.FC = () => {
     return () => clearInterval(interval);
   }, []);
 
-  const tutorials: VideoTutorial[] = [
-    {
-      // title: 'রোগ সনাক্তকরণ টিউটোরিয়াল',
-      // description: 'ফসলের রোগ কিভাবে সনাক্ত করবেন তার বিস্তারিত ভিডিও',
-      videoUrl: 'https://youtu.be/KuXwJ86JJfc?si=6U5rj-CUQTfeXDju'  // Replace with actual video URL
-    }
 
-  ];
 
   const quickTools: QuickTool[] = [
     {
@@ -190,119 +183,6 @@ const FarmerHome: React.FC = () => {
     }
   ];
 
-  // Replace marketUpdates with statsInfo
-  const statsInfo: StatInfo[] = [
-    {
-      title: "নিবন্ধিত কৃষক",
-      value: "১,৫০,০০০+",
-      icon: "👨‍🌾",
-      description: "সক্রিয় কৃষক"
-    },
-    {
-      title: "মোট লেনদেন",
-      value: "৳ ২.৫ কোটি",
-      icon: "💰",
-      description: "সর্বমোট বাজার মূল্য"
-    },
-    {
-      title: "সফল চাষাবাদ",
-      value: "৮,০০০+",
-      icon: "🌾",
-      description: "সফল প্রকল্প"
-    },
-    {
-      title: "AI পরামর্শ",
-      value: "২০,০০০+",
-      icon: "🤖",
-      description: "রোগ সনাক্তকরণ"
-    }
-  ];
-
-  const agriStats: AgriStat[] = [
-    {
-      title: "কৃষি জমি",
-      value: "৮.৫ মিলিয়ন হেক্টর",
-      icon: "🌾",
-      description: "মোট চাষযোগ্য জমি",
-      trend: "হ্রাসমান"
-    },
-    {
-      title: "চাল উৎপাদন",
-      value: "৩.৮ কোটি টন",
-      icon: "🌾",
-      description: "বার্ষিক উৎপাদন ২০২৩",
-      trend: "স্থিতিশীল"
-    },
-    {
-      title: "কৃষক সংখ্যা",
-      value: "১.৬ কোটি",
-      icon: "👨‍🌾",
-      description: "মোট কৃষক পরিবার",
-      trend: "বৃদ্ধিমান"
-    },
-    {
-      title: "জিডিপি অবদান",
-      value: "১৩.৭%",
-      icon: "📈",
-      description: "কৃষি খাতের অবদান",
-      trend: "স্থিতিশীল"
-    }
-  ];
-
-  // Add guidelines data
-  const guidelines: Guideline = {
-    title: "ভিডিও টিউটোরিয়াল ব্যবহারের নির্দেশনা",
-    points: [
-      "প্রতিটি ভিডিও সম্পূর্ণ দেখুন",
-      "নোট নিয়ে রাখুন প্রয়োজনীয় পয়েন্টগুলো",
-      "কোন প্রশ্ন থাকলে কমেন্ট সেকশনে জানান",
-      "আপনার অভিজ্ঞতা শেয়ার করুন"
-    ]
-  };
-
-  // Update the diseases data
-  const diseases: Disease[] = [
-    {
-      name: "টমেটো পাতা ফাঙ্গাস",
-      icon: "🍅",
-      description: "পাতায় ফাঙ্গাসের আক্রমণ"
-    },
-    {
-      name: "টমেটো হলুদ পাতা ভাইরাস",
-      icon: "🌿",
-      description: "পাতা হলুদ হয়ে যাওয়া"
-    },
-    {
-      name: "টমেটো পাতা",
-      icon: "🍃",
-      description: "সাধারণ পাতার রোগ"
-    },
-    {
-      name: "টমেটো মোজাইক ভাইরাস",
-      icon: "🦠",
-      description: "পাতায় মোজাইক প্যাটার্ন"
-    },
-    {
-      name: "লেট ব্লাইট",
-      icon: "⚫",
-      description: "পাতা ধ্বংস রোগ"
-    },
-    {
-      name: "ব্যাকটেরিয়াল দাগ",
-      icon: "🔴",
-      description: "পাতায় ব্যাকটেরিয়াল আক্রমণ"
-    },
-    {
-      name: "সেপটোরিয়া দাগ",
-      icon: "◾",
-      description: "পাতায় দাগযুক্ত রোগ"
-    },
-    {
-      name: "আগাম ধ্বংস রোগ",
-      icon: "❌",
-      description: "দ্রুত পাতা নষ্ট হওয়া"
-    }
-  ];
 
   const toolUsage: ToolUsage = {
     title: "টুলস ব্যবহারের নির্দেশনা",
@@ -456,11 +336,6 @@ const FarmerHome: React.FC = () => {
           ))}
         </div>
       </section>
-
-    {/* Feature Section - Single Video */}
-     
-
-      {/* New FAQ Section */}
     
       {/* Quick Access Tools Section - Updated spacing */}
       <section className="py-4 md:py-12 mx-3 mb-4">
@@ -506,34 +381,6 @@ const FarmerHome: React.FC = () => {
         </div>
       </section>
 
-      {/* Agricultural Stats Section */}
-      {/* <section className="py-6 md:py-8 mx-3">
-        <div className="container mx-auto px-3">
-          <h2 className="text-2xl md:text-3xl font-bold text-center text-slate-800 mb-8">
-            বাংলাদেশের কৃষি পরিসংখ্যান
-          </h2>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            {agriStats.map((stat, index) => (
-              <div key={index} 
-                   className="bg-white rounded-xl p-6 shadow-md hover:shadow-lg transition-all duration-300">
-                <div className="flex items-center justify-between mb-3">
-                  <span className="text-3xl">{stat.icon}</span>
-                  <span className={`text-sm px-2 py-1 rounded-full ${
-                    stat.trend === 'বৃদ্ধিমান' ? 'bg-green-100 text-green-700' :
-                    stat.trend === 'হ্রাসমান' ? 'bg-red-100 text-red-700' :
-                    'bg-blue-100 text-blue-700'
-                  }`}>
-                    {stat.trend}
-                  </span>
-                </div>
-                <h3 className="font-bold text-slate-700 mb-2">{stat.title}</h3>
-                <p className="text-xl font-bold text-green-600 mb-2">{stat.value}</p>
-                <p className="text-sm text-slate-600">{stat.description}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section> */}
 
       {/* Video Tutorial Section with Guidelines */}
       <div className="bg-white/60 backdrop-blur-sm rounded-2xl p-8 mb-1 border border-white/20 shadow-xl">
@@ -563,32 +410,6 @@ const FarmerHome: React.FC = () => {
             </button>
           </div>
         </div>
-        {/* <div className="grid md:grid-cols-2 gap-8">
-          {tutorials.map((tutorial, idx) => (
-            <div key={idx} className="rounded-xl overflow-hidden shadow-lg">
-              <div className="aspect-video bg-gray-800 relative">
-                <ReactPlayer
-                  url={tutorial.videoUrl}
-                  width="100%"
-                  height="100%"
-                  controls
-                  light  // This shows thumbnail until played
-                  playing={false}
-                  config={{
-                    youtube: {
-                      playerVars: { showinfo: 1 }
-                    }
-                  }}
-                />
-              </div>
-              {/* <div className="p-4 bg-white">
-                <h3 className="font-semibold text-gray-800 mb-2">{tutorial.title}</h3>
-                <p className="text-sm text-gray-600">{tutorial.description}</p>
-              </div> */}
-            {/* </div> */}
-          {/* ))}  */}
-        {/* </div> */} 
-       
       </div>
 
       {/* Mobile Bottom Navigation - 3D Style */}

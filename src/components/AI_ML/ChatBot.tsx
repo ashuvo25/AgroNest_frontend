@@ -44,7 +44,7 @@ const TypingIndicator: React.FC<{ text: string }> = ({ text }) => (
 
 // Update the API_CONFIG
 const API_CONFIG = {
-  BASE_URL: `${window.location.protocol}//${window.location.hostname}:5000`,
+  BASE_URL: `${window.location.protocol}//${window.location.hostname}:5003`,
   ENDPOINTS: {
     generate: '/generate',
     signin: '/signin',
@@ -458,7 +458,6 @@ const submitMessage = async (messageText: string) => {
 
     const startTime = Date.now();
     let currentText = '';
-
     // Generate intermediate states
     const steps = 10; // Number of intermediate steps
     const stepDuration = idealTypingTime / steps;
