@@ -242,7 +242,7 @@ const CropBiddingPage: React.FC = () => {
 
       {/* Chat Box */}
       {isChatOpen && (
-        <div className="fixed bottom-24 right-6 w-96 h-[500px] bg-white rounded-lg shadow-xl z-50 flex flex-col">
+        <div className="fixed bottom-24 right-6 w-[calc(100%-2rem)] sm:w-80 md:w-96 h-[500px] bg-white rounded-lg shadow-xl z-50 flex flex-col">
           {/* Chat Header */}
           <div className="bg-green-600 text-white p-4 rounded-t-lg flex justify-between items-center">
             <h3 className="font-semibold">পণ্যের মালিক</h3>
@@ -318,7 +318,7 @@ const CropBiddingPage: React.FC = () => {
             d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"
           />
         </svg>
-        <span>পণ্যের মালিকের সাথে চ্যাট করুন</span>
+        <span className="hidden sm:inline">পণ্যের মালিকের সাথে চ্যাট করুন</span>
       </button>
     </div>
   );

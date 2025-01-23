@@ -28,6 +28,9 @@ import InfoHub from './components/dashboard/info-hub'
 import BiddingProd from './components/MarketPlace/bidding'
 import CropBiddingPage from './components/MarketPlace/biddingDetails'
 import OrderDetails from './components/MarketPlace/OrderDetails'
+import CommunityInfo from './components/dashboard/community-info'
+import MyAddedProducts from './components/MarketPlace/myAddedProduct'
+import AddProduct from './components/MarketPlace/addProduct'
 
 
 
@@ -63,8 +66,13 @@ const App = () => {
           <Route path="/bidding" element={<BiddingProd/>} />
           <Route path="/biddingProduct" element={<CropBiddingPage/>} />
           <Route path="/ProductOrder" element={<OrderDetails/>} />
+          <Route path="/communityinfo" element={<CommunityInfo/>} />
+          <Route path="/myProduct" element={<MyAddedProducts/>} />
+          <Route path="/addProduct" element={<AddProduct/>} />
 
-          OrderDetails
+
+
+          
 
 
           

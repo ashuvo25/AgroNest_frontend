@@ -88,8 +88,19 @@ const Dashboard = () => {
             <BadgeInfo className="mr-3 h-5 w-5" />
             তথ্য কেন্দ্র
           </button>
+             <button
+                      onClick={() => handleNavigation('communityinfo')}
+                      className={`flex w-full items-center px-6 py-3 text-sm font-semibold ${
+                        activeNav === 'info-hub'
+                          ? 'bg-green-50 text-green-700'
+                          : 'text-gray-600 hover:bg-green-50'
+                      }`}
+                    >
+                      <BadgeInfo className="mr-3 h-5 w-5" />
+                      Community
+                    </button>
           <div className="mx-6 my-4 border-t border-green-100"></div>
-          <div className="px-6 py-2 text-xs font-semibold uppercase text-gray-400">
+          {/* <div className="px-6 py-2 text-xs font-semibold uppercase text-gray-400">
             ত্বরিত লিঙ্কস
           </div>
           <button
@@ -105,7 +116,7 @@ const Dashboard = () => {
           >
             <Leaf className="mr-3 h-5 w-5" />
             ফসলের ক্যালেন্ডার
-          </button>
+          </button> */}
         </nav>
 
         {/* Logout Button */}

@@ -69,7 +69,7 @@ const Marketplace: React.FC = () => {
           {[
             { name: 'মার্কেট', icon: '🏪', color: 'bg-blue-100', path: '/marketplace' },
             { name: 'বিডিং', icon: '💰', color: 'bg-amber-100', path: '/bidding' },     // Changed from 🔨 to 💰
-            { name: 'রিকোয়েস্ট', icon: '📝', color: 'bg-green-100', path: '/rent' },    // Changed from 📋 to 📝
+            { name: 'আমার পণ্যসমূহ', icon: '📝', color: 'bg-green-100', path: '/myProduct' },    // Changed from 📋 to 📝
             // { name: 'সবগুলো', icon: '📋', color: 'bg-purple-100', path: '/all' },
           ].map((category, index) => (
             <div
