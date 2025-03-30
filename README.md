@@ -24,13 +24,13 @@ Ensure you have the following installed:
 1. Clone the repository
    ```sh
    git clone https://github.com/your-username/AgroNest_frontend.git
-   cd AgroNest_frontend ```
+   cd AgroNest_frontend 
 2. Install dependencies
    ```sh
-   npm install ```
+   npm install 
 3. Start the development server
    ```sh
-   npm run dev ```
+   npm run dev 
 
 The application will be running locally, usually at http://localhost:3000.
 
